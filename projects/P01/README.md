@@ -1,7 +1,7 @@
 # P01 – IoT Driverintegration
 
 ## Översikt
-I detta projekt ska ni designa och implementera ett lagerindelat IoT-system, där en hårdvarunära driver integreras med ett nätverkslager (MQTT). Systemet ska implementeras på ESP32-S3.
+I detta projekt ska ni i grupper om 3-4 designa och implementera ett lagerindelat IoT-system, där en hårdvarunära driver integreras med ett nätverkslager (MQTT). Systemet ska implementeras på ESP32-S3.
 
 Målet är att integrera:
 * En driver för ett lägre lager (I2C, CAN eller RS-485).
@@ -27,7 +27,7 @@ Efter att ha genomfört **P01** ska ni kunna:
 ---
 
 ## Projektstruktur
-* Arbeta i grupper om två.
+* Arbeta i grupper om 3-4.
 * Båda studenterna ska aktivt delta i implementation och muntlig redovisning.
 
 ---
@@ -126,16 +126,24 @@ Ni ska kunna förklara:
 
 ---
 
-## Inlämning
-Varje grupp ska:
-* Skapa ett privat GitHub-repo.
-* Lägga upp all källkod i repot.
-* Bjuda in läraren som collaborator.
-* Inkludera en kort README i repot, som ska innehålla följande:
-    * En kort systembeskrivning.
-    * Kortfattad beskrivning av hur valda protokoll fungerar.
-    * En enkel arkitekturskiss (ASCII eller bild).
-    * Kort instruktion för hur systemet körs.
+## Versionshantering och inlämning
+
+Projektet ska versionshanteras i ett Git-repo (t.ex. GitHub eller GitLab).
+
+Krav:
+
+* Arbeta i grupper om 3-4.
+* Koden ska ligga i ett privat repo.
+* Läraren ska bjudas in som collaborator.
+* All utveckling ska ske via Git (inga zip-filer eller liknande).
+* Alla studenter ska bidra med egna commits i repot.
+
+README i repot ska innehålla:
+* En kort systembeskrivning.
+* Kortfattad beskrivning av hur valda protokoll fungerar.
+* En enkel arkitekturskiss (ASCII eller bild).
+* Kort instruktion för hur systemet körs.
+
 
 ---
 
