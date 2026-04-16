@@ -32,16 +32,7 @@ Istället för många punkt‑till‑punkt‑anslutningar kan alla enheter kommu
 ### Varför CAN används
 I många inbyggda system måste flera enheter kommunicera med varandra.
 
-Om man använder punkt‑till‑punkt‑kommunikation (t.ex. UART) krävs många kablar:
-
-```text
-ECU -> Sensor
-ECU -> Instrumentpanel
-ECU -> Aktuator
-ECU -> ABS
-```
-
-Detta skalar dåligt när systemet växer.
+Om man använder punkt‑till‑punkt‑kommunikation (t.ex. UART) krävs många kablar mellan sensorer, instrumentpaneler, aktuatorer med mera. Detta blir särskilt påtagligt när systemet växer.
 
 CAN löser detta genom att erbjuda:
 * Delad buss.
@@ -218,8 +209,8 @@ Nod B: 01000000001
 ```
 
 CAN använder två signalnivåer:
-* Dominant.
-* Recessiv.
+* Dominant (logisk nolla).
+* Recessiv (logisk etta).
 
 Arbitration sker bit för bit medan noder sänder samtidigt:
 * Dominanta bitar skriver över recessiva bitar.

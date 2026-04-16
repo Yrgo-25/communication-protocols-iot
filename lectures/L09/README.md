@@ -30,18 +30,8 @@
 * Läs igenom [bilaga A](./appendix/a_can.md) för information om CAN.
 
 ### Under lektionen
-* CAN-frame (översikt):
-  * ID
-  * DLC
-  * DATA
-* Arbitrering:
-  * Flera noder kan sända samtidigt.
-  * Lägst ID vinner (ingen kollision).
-* Filtrering:
-  * Noder lyssnar på relevanta ID:n.
-* Jämförelse:
-  * Vårt protokoll: Parsing, routing, tillförlitlighet i mjukvara.
-  * CAN: Mycket hanteras i hårdvara.
+* Genomför övningsuppgifter i [bilaga B](./appendix/b_exercises.md).
+
 
 ---
 
