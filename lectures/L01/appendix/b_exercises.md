@@ -71,13 +71,19 @@ Observera katalogen [code](./code/):
 ---
 
 #### **2.** Skapa frame-typer
-I [comm/frame/type.h](./code/include/comm/frame/type.h), implementera enumerationsklassen `com::frame::Type` enligt befintlig dokumentation:
+I [comm/frame/type.h](./code/include/comm/frame/type.h), implementera enumerationsklassen `com::frame::Type` enligt beskrivningen ovan.
 
 ---
 
-#### **3.** Skapa framestruktur
+#### **3.** Skapa frame-strukt
 I [comm/frame/frame.h](./code/include/comm/frame/frame.h), implementera strukten `comm::frame::Frame` enligt befintlig dokumentation:
-* Lägg till medlemsvariabler enligt beskrivningen.
+* Lägg till medlemsvariabler enligt beskrivningen:
+    * `payload[MaxPayloadLen]`
+    * `seqNr`
+    * `dstAddr`
+    * `srcAddr`
+    * `payloadLen`
+    * `type`
 * Deklarera dokumenterade metoder:
     * `serialize()` ska markeras `const` samt `noexcept`.
     * `deserialize()` ska markeras `noexcept`.
@@ -87,14 +93,14 @@ I [comm/frame/frame.h](./code/include/comm/frame/frame.h), implementera strukten
 #### **4.** Implementera serialiseringsmetod
 I [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp), implementera metoden 
 `comm::frame::Frame::serialize()`, så att denna skriver följande till given buffer:
-* 1. SOF = `0xA5F7` (big endian).
-* 2. LEN: Payload-längden.
-* 3. TYPE: Frame-typen.
-* 4. DST: Destinationsadressen.
-* 5. SRC: Avsändaradressen.
-* 6. SEQ: Sekvensnumret (big endian).
-* 7. DATA: Payload (i samma ordning som det är lagrat i framens payload-buffer).
-* 8. CHK: Checksumma beräknad över samtliga föregående fält, byte för byte.
+* SOF = `0xA5F7` (big endian).
+* LEN: Payload-längden.
+* TYPE: Frame-typen.
+* DST: Destinationsadressen.
+* SRC: Avsändaradressen.
+* SEQ: Sekvensnumret (big endian).
+* DATA: Payload (i samma ordning som det är lagrat i framens payload-buffer).
+* CHK: Checksumma beräknad över samtliga föregående fält, byte för byte.
 
 Returnera:
 * Total framelängd om serialiseringen lyckades.
@@ -127,7 +133,7 @@ Det som sker i testet är att:
 * Respektive frame skrivs ut i terminalen.
 
 Notera:
-* I testet antas att er frame-strukt använder generiska namn för fälten, såsom `payloadLen` och `dstAddr`.
+* I testet antas att er frame-strukt använder de namn för fälten som specificerades ovan, exempelvis `payloadLen` och `dstAddr`.
 * Har ni namngett medlemsvariablerna annorlunda är det fritt fram att ändra motsvarande i testet.
 
 ---

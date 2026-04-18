@@ -3,49 +3,42 @@
  */
 #include <cstddef>
 #include <cstdint>
-#include <iomanip>
-#include <iostream>
+#include <cstdio>
 
-#include "frame.h"
+#include "comm/frame/frame.h"
 
 using namespace comm;
 
 namespace
 {
 // -----------------------------------------------------------------------------
-void printBytes(const std::uint8_t* bytes, const std::size_t byteCount, 
-                std::ostream& ostream = std::cout) noexcept
+void printBytes(const std::uint8_t* bytes, const std::size_t byteCount) noexcept
 {
     if ((nullptr == bytes) || (0U == byteCount)) { return; }
     const std::size_t last{byteCount - 1U};
-    ostream << "[";
-
-    for (std::size_t i{}; i < last; ++i)
-    {
-        ostream << std::hex << static_cast<int>(bytes[i]) << ", ";
-    }
-    ostream << std::hex << static_cast<int>(bytes[last]) << "]\n";
+    std::printf("[");
+    for (std::size_t i{}; i < last; ++i) { std::printf("%02X, ", bytes[i]); }
+    std::printf("%02X]\n", bytes[last]);
 }
 
 // -----------------------------------------------------------------------------
 bool createPing(std::uint8_t* buf, std::size_t& bufLen, const std::uint8_t dst,
-                const std::uint8_t src, const std::uint16_t seq,
-                std::ostream& ostream = std::cout) noexcept
+                const std::uint8_t src, const std::uint16_t seq) noexcept
 {
     // Initialize ping frame structure.
     frame::Frame frame{};
-    frame.type = frame::Type::Ping;
-    frame.dstAddr  = dst;
-    frame.srcAddr  = src;
-    frame.seqNr  = seq;
+    frame.type    = frame::Type::Ping;
+    frame.dstAddr = dst;
+    frame.srcAddr = src;
+    frame.seqNr   = seq;
 
     // Serialize buffer, return false on failure.
     const std::size_t frameLen{frame.serialize(buf, bufLen)};
     if (0U == frameLen) { return false; }
 
     // Print the frame as bytes.
-    ostream << std::dec << "Ping frame (" << frameLen << " bytes): ";
-    printBytes(buf, frameLen, ostream);
+    std::printf("Ping frame (%zu bytes): ", frameLen);
+    printBytes(buf, frameLen);
 
     // Store the number of serialized bytes.
     bufLen = frameLen;
@@ -78,8 +71,25 @@ bool transmitPing(const std::uint8_t* txBuf, const std::size_t txBufLen,
 }
 
 // -----------------------------------------------------------------------------
-bool validatePong(const std::uint8_t* buf, const std::size_t bufLen,
-                  std::ostream& ostream = std::cout) noexcept
+const char* typeStr(const comm::frame::Type type) noexcept
+{
+    switch (type)
+    {
+        case comm::frame::Type::Ping:
+            return "Ping";
+        case comm::frame::Type::Pong:
+            return "Pong";
+        case comm::frame::Type::StatusRequest:
+            return "StatusRequest";
+        case comm::frame::Type::StatusResponse:
+            return "StatusResponse";
+        default:
+            return "Unknown";
+    }
+}
+
+// -----------------------------------------------------------------------------
+bool validatePong(const std::uint8_t* buf, const std::size_t bufLen) noexcept
 {
     // Deserialize response data, return false on failure.
     frame::Frame frame{};
@@ -87,21 +97,21 @@ bool validatePong(const std::uint8_t* buf, const std::size_t bufLen,
     if (frame::Type::Pong != frame.type) { return false; }
 
     // Print the frame as bytes.
-    ostream << std::dec << "Pong frame (" << bufLen << " bytes): ";
-    printBytes(buf, bufLen, ostream);
+    std::printf("Pong frame (%zu bytes): ", bufLen);
+    printBytes(buf, bufLen);
 
     // Print deserialized data.
-    ostream << "Deserialized frame:\n";
-    ostream << "\t- Frame type ID: " << static_cast<int>(frame.type) << "\n";
-    ostream << "\t- Destination address: " << static_cast<int>(frame.dstAddr) << "\n";
-    ostream << "\t- Source address: " << static_cast<int>(frame.srcAddr) << "\n";
-    ostream << "\t- Sequence: " << static_cast<int>(frame.seqNr) << "\n";
+    std::printf("Deserialized frame:\n");
+    std::printf("\t- Frame type: %s\n", typeStr(frame.type));
+    std::printf("\t- Destination address: %u\n", frame.dstAddr);
+    std::printf("\t- Source address: %u\n", frame.srcAddr);
+    std::printf("\t- Sequence: %u\n", frame.seqNr);
     
     // Print payload (if any).
     if (0U < frame.payloadLen)
     {
-        ostream << "\t- Payload (" << frame.payloadLen << ") bytes: ";
-        printBytes(frame.payload, frame.payloadLen, ostream);
+        std::printf("\t- Payload (%u) bytes: ", frame.payloadLen);
+        printBytes(frame.payload, frame.payloadLen);
     }
     return true;
 }
