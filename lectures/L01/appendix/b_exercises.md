@@ -63,10 +63,15 @@ Er implementation ska valideras via ett befintligt testprogram.
 
 #### **1.** Inspektera filstruktur
 Observera katalogen [code](./code/):
-* [main.cpp](./code/source/main.cpp) innehåller testprogrammet som ska validera er frame-implementation.
-* [comm/frame/type.h](./code/include/comm/frame/type.h) ska innehålla definitioner av frametyper via en enumerationsklass `comm::frame::Type`.
-* [comm/frame/frame.h](./code/include/comm/frame/frame.h) ska innehålla strukten `comm::frame::Frame`.
-* [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp) ska innehålla implementationsdetaljer för strukten `comm::frame::Frame`, exempelvis metoddeklarationer.
+* [main.cpp](./code/source/main.cpp):
+  * Innehåller testprogrammet som ska validera er frame-implementation.
+* [comm/frame/def.h](./code/include/comm/frame/def.h):
+  * Innehåller definitioner av offsetar (indexpositioner) för framens olika fält, storlekar på fält med mera.
+  * Enumerationsklasser `comm::frame::Type` ska implementeras i enlighet med specifikationerna.
+* [comm/frame/frame.h](./code/include/comm/frame/frame.h):
+  * Innehåller deklaration av strukten `comm::frame::Frame`.
+* [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp):
+  * Ska innehålla implementationsdetaljer för strukten `comm::frame::Frame`, exempelvis metoddefinitioner.
 
 ---
 
