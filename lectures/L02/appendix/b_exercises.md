@@ -2,51 +2,27 @@
 
 ## Övningsuppgifter – Byte-parsing
 
+Följande övningsuppgifter bygger vidare på övningsuppgifterna från 
+[L01](../../L01/appendix/b_exercises.md).
+
 ### **1.** Implementera en frame-parser
-Implementera `comm::frame::Parser` med följande bas:
-
-``` cpp
-namespace comm::frame
-{
-class Parser
-{
-public:
-    bool isFrameReady() const noexcept;
-    bool processByte(std::uint8_t byte) noexcept;
-    bool extractFrame(Frame& frame) noexcept;
-    void reset() noexcept;
-
-private:
-    enum class State : std::uint8_t
-    {
-        WaitForSof1,
-        WaitForSof2,
-        WaitForLen,
-        WaitForHeader,
-        WaitForPayload,
-        WaitForChecksum,
-        Ready,
-    };
-
-    Frame& myFrame;
-    std::uint8_t myParsedBytes;
-    State myState;
-};
-} // namespace comm::frame
-```
+Lägg till filen [comm/frame/parser.h](./code/parser.h) i ert projekt.  
+Definiera metoddefinitionerna i en ny fil `comm/frame/parser.cpp`.
 
 Parsern ska:
 * Vänta på SOF byte 1.
 * Vänta på SOF byte 2.
 * Läsa LEN.
-* Samla bytes tills hela framen är mottagen.
-* Validera framen via `deserialize()`.
-* Markera frame ready.
+* Samla bytes tills hela framen enligt längdfältet har mottagits.
+* Markera att en komplett frame har mottagits via `isFrameReady()`.
+* Ge tillgång till frame-data via `extractFrame()`, som även validerar framen via 
+`Frame::deserialize()`.
+* Om framen är ogiltig ska parsern återgå till att söka efter ny SOF.
 
 ---
 
 ### **2.** Skicka PONG vid mottagande av PING
-Implementera en funktion med namnet `handleFrame()`:
+I en ny fil `comm/frame/handler.h`, deklarera en funktion med namnet `handleFrame()`:
 
 ``` cpp
 bool handleFrame(const Frame& txFrame, Frame& rxFrame) noexcept;
@@ -62,41 +38,27 @@ Denna funktion ska läsa `txFrame` och skicka returdata via `rxFrame`:
 * Annars:
     * Returnera `false`.
 
+Definiera `handleFrame()` i en ny fil `comm/frame/handler.cpp`.
+
 ---
 
 ### **3.** Sammankoppling
-I `main()`:
+Använd bifogat testprogram i [main.cpp](./code/main.cpp):
 * 1. Skapa en PING-frame. 
 * 2. Serialisera framen. 
-* 3. Mata in bytes en och en i Parser. 
-* 4. När frame har extraherats:
+* 3. Mata in bytes en och en via en frame parser. 
+* 4. När framen har extraherats:
     * Anropa handleFrame().
     * Serialisera PONG.
     * Skriv ut resultat på hexadecimal form.
-
-#### Testfall
-1.  Korrekt PING → korrekt PONG.
-2.  Fel checksum → ska avvisas.
-3.  Skräpdata före frame → parser ska återhämta sig.
-4.  Två frames back-to-back.
-
 ---
 
-### **4.** Robust SOF-hantering
+### **4.** Robust SOF-hantering (om tid finns)
 Verifiera följande scenario:
 * En byte `0xA5` (SOF1) tas emot.
 * Nästa byte är inte `0xF7` (SOF2), utan exempelvis `0xA5` igen.
-* Parsern ska kunna hantera detta utan att missa en potentiell frame-start.
-
----
-
-### **5.** Reset-policy
-När ska parsern göra `reset()`?
-* Efter `extractFrame()`?
-* Efter en trasig checksumma?
-* Efter felaktig LEN?
-* Efter fel SOF?
-
-Skriv ner en policy i 3-5 punkter och motivera den kort.
+* Parsern ska kunna hantera detta utan att missa en potentiell frame-start:
+    * Testa att starta om parsningen med rätt SOF efter att föregående parsning misslyckades.
+    * Verifiera att parsningen lyckades.
 
 ---

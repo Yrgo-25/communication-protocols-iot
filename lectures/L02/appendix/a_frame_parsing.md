@@ -22,7 +22,7 @@ Parsern ska vara:
 * Deterministisk (ingen blockering).
 * Robust (återhämtar sig från skräpdata).
 * Enkel att testa (mata in bytes i valfri ordning och verifiera resultat).
-* Heap-fri (fast buffer internt eller återanvändning av `Frame`/buffer).
+* Heap-fri (användning av statisk buffer internt).
 
 ---
 
@@ -35,13 +35,18 @@ Parsern ska implementeras som en state machine med följande tillstånd:
  */
 enum class State : std::uint8_t
 {
-    WaitForSof1,     ///< Waiting for the first SOF byte.
-    WaitForSof2,     ///< Waiting for the second SOF byte.
-    WaitForLen,      ///< Waiting for the payload length (LEN).
-    WaitForHeader,   ///< Waiting for the remaining header fields (TYPE, DST, SRC, SEQ).
-    WaitForPayload,  ///< Waiting for the payload (DATA).
-    WaitForChecksum, ///< Waiting for the checksum (CHK).
-    Ready,           ///< The frame is complete/ready.
+    WaitForSof1,    ///< Wait for Start-of-Frame (high byte).
+    WaitForSof2,    ///< Wait for Start-of-Frame (low byte).
+    WaitForLen,     ///< Wait for payload length.
+    WaitForType,    ///< Wait for frame type.
+    WaitForDst,     ///< Wait for destination address.
+    WaitForSrc,     ///< Wait for source address.
+    WaitForSeq1,    ///< Wait for sequence number (high byte).
+    WaitForSeq2,    ///< Wait for sequence number (low byte).
+    WaitForPayload, ///< Wait for payload (len bytes).
+    WaitForChk1,    ///< Wait for checksum (high byte).
+    WaitForChk2,    ///< Wait for checksum (low byte).
+    Ready,          ///< Frame ready.
 };
 ```
 
@@ -49,9 +54,14 @@ Idén är att följande data ska läsas in i respektive tillstånd:
 * `WaitForSof1`: Den första SOF-byten (t.ex. `0xA5`).
 * `WaitForSof2`: Den andra SOF-byten (t.ex. `0xF7`).
 * `WaitForLen`: Payloadlängden (LEN).
-* `WaitForHeader`: Resterande headerfält (TYPE, DST, SRC, SEQ).
+* `WaitForType`: Frame-typen (TYPE).
+* `WaitForDst`: Destinationsaddressen (DST).
+* `WaitForSrc`: Avsändaradressen (SRC).
+* `WaitForSeq1`: Den första sekvensnummber-byten (SEQ).
+* `WaitForSeq1`: Den andra sekvensnummber-byten (SEQ).
 * `WaitForPayload`: LEN bytes payload (DATA).
-* `WaitForChecksum`: Checksum (CHK).
+* `WaitForChk1`: Den första checksumme-byten (CHK).
+* `WaitForChk2`: Den andra checksumme-byten (CHK).
 * `Ready`: En komplett frame finns i den interna buffern.
 
 ---
@@ -67,42 +77,31 @@ En vanlig strategi:
     * Annars:
         * Parsern gör `reset()` och fortsätter leta efter SOF.
 
-**Viktigt:**
+**OBS!**
 * Om skräpdata kommer före SOF ska parsern ignorera detta tills SOF hittas.
-* Om SOF byte 1 matchar men byte 2 inte matchar:
-    * Parsern ska inte fastna.
-    * Den ska återgå till ett tillstånd där den kan hitta SOF igen.
+* Om SOF byte 1 matchar men byte 2 inte matchar ska parsern återställas till starttillståndet.
 
 ---
 
 ### Rekommenderat beteende för API
 
+#### `isFrameReady()`
+* Returnerar `true` om parsern är i tillståndet `Ready`, annars `false`.
+
 #### `processByte(std::uint8_t byte)`
 * Tar emot en byte.
-* Uppdaterar state machine.
-* Returnerar `true` om en frame blev komplett i samband med detta byte (dvs. tillstånd `Ready` nåddes), annars `false`.
-
-#### `isFrameReady()`
-* Returnerar `true` om parsern är i `Ready`.
+* Uppdaterar tillståndsmaskinen.
+* Returnerar `true` om given byte parsades, annars `false`.
 
 #### `extractFrame(Frame& frame)`
 * Om `isFrameReady()`:
-    * Kopiera/assigna ut framen till argumentet `frame`.
+    * Returnera `false` direkt.
+* Annars:
+    * Deserialisera framen via `frame`.
     * Sätt parsern tillbaka till lämpligt startläge (typiskt `reset()`).
-    * Returnera `true`.
-* Om inte `Ready`:
-    * Returnera `false`.
+    * Returnera `true` om deserialiseringen lyckades, annars `false`.
 
 #### `reset()`
 * Återställ state, räknare och bufferindex så att parsern kan leta efter nästa frame.
-
----
-
-### Vanliga buggar
-* FEL: Endian vid tolkning av 16-bitfält (SOF, SEQ, CHK).
-* FEL: LEN tolkas som total längd (den räknar endast payload).
-* FEL: Parsern fastnar om SOF2 är fel.
-* FEL: Parsern accepterar en frame innan alla bytes har tagits emot.
-* FEL: Parsern glömmer att återställas efter `extractFrame()`.
 
 ---
