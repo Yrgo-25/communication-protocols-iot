@@ -6,6 +6,7 @@
 #include <cstdio>
 
 #include "comm/frame/frame.h"
+#include "comm/frame/type.h"
 
 using namespace comm;
 
