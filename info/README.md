@@ -9,7 +9,6 @@ Erik Pihl ([erik.axel.pihl@gmail.com](mailto:erik.axel.pihl@gmail.com))
 # Kursplan – Kommunikationsprotokoll & IoT
 Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunikationsprotokoll i C++:
 * Föreläsningarna varvar teori och praktiskt arbete i projektet **P01**. 
-* I början av kursen ligger större fokus på teori och grundläggande implementation, medan senare delar av kursen domineras av projektarbete.
 
 ---
 
@@ -19,7 +18,7 @@ Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunika
 | ----------- | ----- | -------- |
 | L01         | 22/4  | Frames (struktur, fält, serialisering) |
 | L02         | 29/4  | Byte-parsing och state machine |
-| L03         | 6/5   | Databussar och routing (del I), start av **P01** |
+| L03         | 5/5   | Databussar och routing (del I), start av **P01** |
 | L04         | 8/5   | Databussar och routing (del II), arbete med **P01** |
 | L05         | 11/5  | Felmodell för databussar (del I), arbete med **P01** |
 | L06         | 11/5  | Felmodell för databussar (del II), arbete med **P01** |
@@ -28,28 +27,12 @@ Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunika
 | L09         | 18/5  | CAN (Controller Area Network) |
 | L10         | 19/5  | **Vector CANalyzer-labb (obligatorisk)** |
 | L11         | 20/5  | Timeout, retries och dubbletthantering (del I), arbete med **P01** |
-| L12         | 21/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P01** |
+| L12         | 22/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P01** |
 | L13         | 25/5  | Repetition, övningsdugga, arbete med **P01** |
 | L14         | 28/5  | **D01 – Dugga**, arbete med **P01** |
 | L15         | 29/5  | Slutförande och redovisning av **P01** |
 
 ---
-
-## Pedagogiskt upplägg
-Kursen bygger på att studenten själv utvecklar ett kommunikationssystem.
-
-Istället för att börja med färdiga protokoll introduceras problem stegvis:
-* Hur representeras data i ett frame?
-* Hur tolkar man en byte-ström?
-* Hur hittar man tillbaka till rätt struktur?
-* Vad händer när data försvinner eller dupliceras?
-
-Saker som:
-* ACK/NACK
-* sekvensnummer
-* timeout och retries
-
-introduceras först när behovet uppstår i projektet.
 
 ---
 
