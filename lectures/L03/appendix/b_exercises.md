@@ -11,8 +11,9 @@ Vi bygger en simulerad miljö med:
 
 ---
 
-### **1.** Skapa bus-interface
-Implementera följande interface `comm::bus::Interface` för databussen:
+### **1.** Skapa buss-interface
+Implementera följande interface `comm::bus::Interface` för databussen i en ny fil 
+`comm/bus/interface.h`:
 
 ```cpp
 #include <cstdint>
@@ -66,15 +67,15 @@ public:
 } // namespace comm::bus
 ```
 
-Krav:
+Funktion:
 * `addNode()` registrerar en nod på bussen.
 * `sendByte()` lägger en byte i bussens interna kö.
 * `tick()` levererar bytes till noderna.
 
 ---
 
-### **2.** Skapa node-interface
-Implementera följande interface `comm::node::Interface` för en nod:
+### **2.** Skapa nod-interface
+Implementera följande interface `comm::node::Interface` för en nod i en ny fil `comm/node/interface.h`:
 
 ```cpp
 #include <cstdint>
@@ -106,7 +107,7 @@ public:
      * 
      * @param[in] byte Received byte.
      */
-    //! @todo Name the method 'onRxByte()'.
+    //! @todo Name the method 'onReceive()'.
 
     /**
      * @brief Execute one tick of node logic.
@@ -119,9 +120,9 @@ public:
 } // namespace comm::node
 ```
 
-Krav:
+Funktion:
 * `address()` används av noden (och ev. bussen) för debug/test.
-* `onRxByte()` tar emot bytes från bussen (broadcast).
+* `onReceive()` tar emot bytes från bussen (broadcast).
 * `tick()` driver nodens logik utan blockering.
 
 ---
@@ -134,7 +135,7 @@ Implementera en stubb-buss med följande beteende:
 * När `tick()` anropas:
     * Om kön innehåller data:
         * Poppa en byte (FIFO).
-        * Leverera den till alla noder genom att anropa `node.onRxByte(byte)`.
+        * Leverera den till alla noder genom att anropa `node.onReceive(byte)`.
 
 ---
 
@@ -148,7 +149,7 @@ Skapa en nodstubb som:
 Implementera följande metoder:
 * `address()`:
     * Returnerar `myAddr`.
-* `onRxByte(std::uint8_t byte)`:
+* `onReceive(std::uint8_t byte)`:
     * Matar byte till frame-parsern.
 * `tick()`:
     * Om frame-parsern har en komplett frame:
