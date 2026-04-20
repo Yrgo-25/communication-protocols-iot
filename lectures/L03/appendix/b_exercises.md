@@ -16,6 +16,11 @@ Implementera följande interface `comm::bus::Interface` för databussen i en ny 
 `comm/bus/interface.h`:
 
 ```cpp
+/**
+ * @brief Bus interface.
+ */
+#pragma once
+
 #include <cstdint>
 
 namespace comm
@@ -63,6 +68,11 @@ public:
      *        Deliver pending bytes to all nodes.
      */
     //! @todo Name the method 'tick()'.
+
+    /**
+     * @brief Reset the bus and all connected nodes.
+     */
+    //! @todo Name the method `reset()`.
 };
 } // namespace comm::bus
 ```
@@ -71,6 +81,7 @@ Funktion:
 * `addNode()` registrerar en nod på bussen.
 * `sendByte()` lägger en byte i bussens interna kö.
 * `tick()` levererar bytes till noderna.
+* `reset()` återställer bussen och samtliga anslutna noder.
 
 ---
 
@@ -78,6 +89,11 @@ Funktion:
 Implementera följande interface `comm::node::Interface` för en nod i en ny fil `comm/node/interface.h`:
 
 ```cpp
+/**
+ * @brief Node interface.
+ */
+#pragma once
+
 #include <cstdint>
 
 namespace comm::node
@@ -116,97 +132,118 @@ public:
      *        Any required transmissions should be queued on the bus.
      */
     //! @todo Name the method 'tick()'.
+
+    /**
+     * @brief Reset the node.
+     */
+    //! @todo Name the method `reset()`.
 };
 } // namespace comm::node
 ```
 
 Funktion:
-* `address()` används av noden (och ev. bussen) för debug/test.
+* `address()` ger nodens address.
 * `onReceive()` tar emot bytes från bussen (broadcast).
 * `tick()` driver nodens logik utan blockering.
+* `reset()` återställer nodens interna tillstånd.
 
 ---
 
 ### **3.** Implementera `comm::bus::Stub`
-Implementera en stubb-buss med följande beteende:
-* Bussen har en lista med noder (referenser).
-* När `sendByte()` anropas:
-    * Byten läggs i en intern kö (FIFO, dvs. *First In First Out*).
-* När `tick()` anropas:
+Implementera en buss-stub i en ny fil `comm/bus/stub.h`:
+
+Bussen ska följande interna konstanter (`static constexpr`):
+* `MaxNodeCount` = `10U`
+* `MaxQueuedBytes` = `20U`
+
+Bussen ska följande medlemsvariabler:
+* `myNodes[MaxNodeCount]`:
+    * Array med pekare till anslutna noder.
+* `myQueue[MaxQueuedBytes]`:
+    * Intern kö som lagrar data (bytes) som ska skickas till alla noder.
+    * Ska arbeta efter FIFO-principen (*First In First Out*), dvs. den äldsta byten ska
+    poppas/tas ut först.
+* `myNodeCount`:
+    * Antalet anslutna noder
+* `myQueueLen`:
+    * Antalet bytes i den interna kön.
+* `myFirstByteIndex`:
+    * Index för den första (äldsta) byten i den interna kön.
+* `myNextByteIndex`:
+    * Index där nästa byte ska placeras i den interna kön.
+
+Implementera följande metoder i en ny fil `comm/bus/stub.cpp`:
+* `sendByte()`:
+    * Given byte läggs i den intern kön `myQueue` om utrymme finns.
+    * Använd `myNextByteIndex` för att placera den nya byten längst bak i kön.
+    * Inkrementera `myNextByteIndex` efter skrivningen och se till att dena hålls inom bufferns storlek:  
+    `myNextByteIndex = myNextByteIndex % MaxQueuedBytes`.
+    * `True` ska returneras om given byte lades till ska `true` annars `false`.
+* `tick()`:
     * Om kön innehåller data:
-        * Poppa en byte (FIFO).
-        * Leverera den till alla noder genom att anropa `node.onReceive(byte)`.
+        * Poppa en byte enligt FIFO-principen, dvs. den äldsta byten ska poppas.
+        * Använd `myFirstByteIndex` för att läsa ut den äldsta byten.
+        * Inkrementera `myFirstByteIndex` efter läsningen och se till att det hålls inom 
+        bufferns storlek:  
+        `myFirstByteIndex = myFirstByteIndex % MaxQueuedBytes`.
+        * Leverera byten till alla noder genom att anropa `node.onReceive(byte)`.
+* `reset()`:
+    * Nollställer samtliga medlemsvariabler.
+    * Resettar samtliga anslutna noder via `myNodes[i]->reset()`.
 
 ---
 
 ### **4.** Implementera `comm::node::Stub`
-Skapa en nodstubb som:
-* Har en adress (`std::uint8_t myAddr`).
-* Har en `comm::frame::Parser`.
-* Har en RX-frame och TX-frame.
-* Har en referens till `comm::bus::Interface`.
+Implementera en nod-stub i en ny fil `comm/node/stub.h`:
+* Har en frame-parser `myParser`.
+* Har en referens till ett buss-interface `myBus`.
+* Har ett 16-bitars sensorvärde `myVal`.
+* Har en 8-bitars adress `myAddr`.
 
-Implementera följande metoder:
+Implementera följande metoder i en ny fil `comm/node/stub.cpp`:
+* Konstruktorn:
+    * Tar emot en address, en buss-referens samt ett sensorvärde.
+    * Som default ska sensorvärdet sättas till `0`.
+    * Sparar given address i `myAddr`.
+    * Sparar given buss-referens i `myBus`.
+    * Sparar givet sensorvärde i `myVal`.
+    * Kopplar noden till bussen (`myBus.addNode(*this)`).
 * `address()`:
     * Returnerar `myAddr`.
 * `onReceive(std::uint8_t byte)`:
     * Matar byte till frame-parsern.
 * `tick()`:
     * Om frame-parsern har en komplett frame:
-        * Extrahera frame.
-        * Om `frame.dst != myAddr` → ignorera.
+        * Extrahera framen, avsluta metoden vid fel.
+        * Om `frame.dstAddr != myAddr` → ignorera.
         * Annars:
-            * Anropa `handleFrame()` (PING → PONG).
+            * Resetta parsern.
+            * Anropa metoden [handleFrame()](./code/node/stub.cpp) för att svara på framen.
             * Om `handleFrame()` returnerar `true`:
-                * Serialisera PONG och skicka bytes via `bus.sendByte(...)`.
+                * Serialisera framen.
+                * Resetta bussen via `myBus.reset()`.
+                * Skicka bytes via `myBus.sendByte()`.
+            * Annars, gör ingenting.
+* `reset()`:
+    * Resettar den interna parsern.
+* `handleFrame()`:
+    * Privat metod, implementerad i `./code/node/stub.cpp`, som kan klistras in direkt.
+    * Metoden vidareutvecklar och ersätter motsvarande metod från L02.
+    * Filerna `comm/frame/handler.h` och `comm/frame/handler.cpp` kan därför tas bort.
 
 ---
 
-### **5.** Skapa tre noder
-Skapa följande i `main()`:
-* `node1` (adress `0x01`).
-* `node2` (adress `0x02`).
-* `node3` (adress `0x25`).
+### **5.** Validera implementationen
+Kompilera och kör testprogrammet i [main.cpp](./code/main.cpp) i en Linuxterminal:
 
-Registrera alla noder på bussen via `bus.addNode(...)`.
-
----
-
-### **6.** Skicka PING från A till B
-* Skapa en PING-frame i `node1`.
-* DST = `0x02`, SRC = `0x01`, SEQ valfritt.
-* Serialisera och skicka bytes via bussen.
-
-Kör en "simuleringsloop":
-
-```cpp
-for (...) 
-{ 
-    node1.tick(); 
-    node2.tick(); 
-    node3.tick(); 
-    bus.tick(); 
-}
+```bash
+make
 ```
 
-Verifiera att:
-* `node2` skickar PONG tillbaka till `node1`.
-* `node3` ignorerar PING (fel destinationsadress).
-* `node1` tar emot PONG från `node2`.
-
----
-
-## Testfall
-1.  PING från `node1` till `node2` → PONG tillbaka till `node1`.
-2.  `node3` ignorerar frames där `DST != 0x25`.
-3.  Två frames back-to-back: PING följt av PING.
-
----
-
-## Notering om L04
-I L04 bygger vi vidare på samma buss och noder:
-* Vi inför en deterministisk felmodell (drop/korrupt/fördröjning).
-* Vi introducerar ACK/NACK och börjar koppla ihop robusthet med bussens beteende.
-* Ni behöver därför spara och kunna återanvända er L03-implementation.
+Det som sker i testet är att:
+* Tre noder skapas på adressen `1-3`.
+* Noderna ansluts till en databuss.
+* En status request skickas från nod 1 till nod 2.
+* Nod 2 svarar med ett status response innehållande dess sensorvärde.
 
 ---
