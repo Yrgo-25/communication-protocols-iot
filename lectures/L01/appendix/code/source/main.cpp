@@ -72,17 +72,17 @@ bool transmitPing(const std::uint8_t* txBuf, const std::size_t txBufLen,
 }
 
 // -----------------------------------------------------------------------------
-const char* typeStr(const comm::frame::Type type) noexcept
+const char* typeStr(const frame::Type type) noexcept
 {
     switch (type)
     {
-        case comm::frame::Type::Ping:
+        case frame::Type::Ping:
             return "Ping";
-        case comm::frame::Type::Pong:
+        case frame::Type::Pong:
             return "Pong";
-        case comm::frame::Type::StatusRequest:
+        case frame::Type::StatusRequest:
             return "StatusRequest";
-        case comm::frame::Type::StatusResponse:
+        case frame::Type::StatusResponse:
             return "StatusResponse";
         default:
             return "Unknown";
