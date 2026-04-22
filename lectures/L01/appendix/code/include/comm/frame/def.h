@@ -55,8 +55,11 @@ constexpr std::size_t FooterLen{2U};
 /** Maximal payload length. */
 constexpr std::size_t MaxPayloadLen{32U};
 
-/** Maximal frame length. */
-constexpr std::size_t MaxFrameLen{HeaderLen + FooterLen + MaxPayloadLen};
+/** Minimum frame length. */
+constexpr std::size_t MinFrameLen{HeaderLen + FooterLen};
+
+/** Maximum frame length. */
+constexpr std::size_t MaxFrameLen{MinFrameLen + MaxPayloadLen};
 
 /** Start-of-Frame. */
 constexpr std::uint16_t Sof{0xA5F7U};
