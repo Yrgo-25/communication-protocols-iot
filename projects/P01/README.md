@@ -28,7 +28,7 @@ Efter att ha genomfört **P01** ska ni kunna:
 
 ## Projektstruktur
 * Arbeta i grupper om 3-4.
-* Båda studenterna ska aktivt delta i implementation och muntlig redovisning.
+* Alla studenterna ska aktivt delta i implementation och muntlig redovisning.
 
 ---
 
