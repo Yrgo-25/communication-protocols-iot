@@ -8,7 +8,7 @@
   * Identifiera med SEQ.
   * Ignorera dubbletter.
   * Skicka ACK igen.
-* **P01**:
+* **P02+**:
   * Säkerställa korrekt leverans.
 
 ---
@@ -42,6 +42,6 @@
 
 ## Nästa lektion
 * Repetition och förberedelse inför dugga.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

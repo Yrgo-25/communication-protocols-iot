@@ -3,7 +3,7 @@
 ## Dagordning
 * Kort repetition.
 * Genomförande av dugga.
-* **P01**:
+* **P02+**:
   * Fortsatt arbete.
 
 ---
@@ -14,7 +14,7 @@
   * Byte-ström vs frame.
   * Checksum och felhantering.
   * Grundläggande tillförlitlighet (ACK, retry).
-* Fortsätta arbetet med **P01**.
+* Fortsätta arbetet med **P02+**.
 
 ---
 
@@ -33,7 +33,7 @@
 #### Dugga 
 * Genomförs individuellt.
 
-#### P01
+#### P02+
 * Fortsatt implementation och stabilisering.
 
 ---
@@ -45,6 +45,6 @@
 ---
 
 ## Nästa lektion
-* Slutförande och redovisning av **P01**.
+* Slutförande och redovisning av **P02+**.
 
 ---

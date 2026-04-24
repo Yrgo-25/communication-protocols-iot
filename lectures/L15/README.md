@@ -1,8 +1,8 @@
-# L15 - Slutförande och redovisning av **P01**
+# L15 - Slutförande och redovisning av **P02+**
 
 ## Dagordning
 * Kort introduktion.
-* Slutförande av **P01**.
+* Slutförande av **P02+**.
 * Presentationer (gruppvis).
 * Frågor och diskussion.
 
@@ -23,7 +23,7 @@
 ---
 
 ## Förutsättningar
-* **P01** nästan slutfört.
+* **P02+** nästan slutfört.
 * Förberedd (eller påbörjad) demonstration.
 
 ---

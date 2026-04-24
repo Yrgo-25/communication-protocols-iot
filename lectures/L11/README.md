@@ -5,7 +5,7 @@
 * När ACK uteblir.
 * Timeout.
 * Retry (samma SEQ).
-* **P01**:
+* **P02+**:
   * Införa timeout och retry.
 
 ---
@@ -42,6 +42,6 @@
 
 ## Nästa lektion
 * Fortsättning på dagens tema.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

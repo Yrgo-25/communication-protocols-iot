@@ -104,6 +104,6 @@ Studera CAN-trafik i verktyget:
 
 ## Nästa lektion
 * Timeout och retries.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

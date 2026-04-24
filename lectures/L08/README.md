@@ -6,7 +6,7 @@
   * Dubbletter.
   * Förlorad ACK.
 * SEQ i praktiken.
-* **P01**:
+* **P02+**:
   * Hantera dubbletter.
 
 ---

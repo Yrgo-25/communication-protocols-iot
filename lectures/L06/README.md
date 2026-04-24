@@ -7,7 +7,7 @@
   * Korruption.
   * Fördröjning.
 * Felmodell i buss.
-* **P01**:
+* **P02+**:
   * Testa och jämföra felbeteende.
 
 ---
@@ -42,6 +42,6 @@
 ## Nästa lektion
 * Hur gör vi kommunikationen tillförlitlig?
 * Introduktion av ACK/NACK.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

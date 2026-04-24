@@ -6,7 +6,7 @@
   * Extrahera av frames.
   * Filtrera frames via DST.
 * PING → PONG.
-* **P01**:
+* **P02+**:
   * Få kommunikation att fungera mellan noder.
 
 ---
@@ -39,6 +39,6 @@
 
 ## Nästa lektion
 * Felmodell för databussar.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

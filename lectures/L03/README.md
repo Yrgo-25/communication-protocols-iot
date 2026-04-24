@@ -6,7 +6,7 @@
 * Simulerad buss i mjukvara:
     * En bus som förmedlar bytes mellan noder.
     * Tick-driven modell (ingen blockering).
-* Start av **P01**:
+* Start av **P02+**:
     * Bygga buss och nod (stubbar).
     * Koppla byte-flöde mellan noder.
 
@@ -17,7 +17,7 @@
 * Kunna beskriva hur routing fungerar med DST/SRC.
 * Kunna bygga en enkel buss och nodstruktur.
 * Kunna skicka och ta emot bytes mellan noder.
-* Påbörjad struktur för **P01**.
+* Påbörjad struktur för **P02+**.
 
 ---
 
@@ -32,7 +32,7 @@
 
 ### Förberedelse
 * Läs igenom [bilaga A](./appendix/a_bus_and_routing.md) för information om databussar och routing.
-* Läs igenom projektbeskrivningen för **P01** [här](../../projects/P01/README.md).
+* Läs igenom projektbeskrivningen för **P02+** [här](../../project/README.md).
 
 ### Under lektionen
 * Genomför övningsuppgifter i [bilaga B](./appendix/b_exercises.md).
@@ -50,6 +50,6 @@
 
 ## Nästa lektion
 * Fortsättning på dagens tema.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

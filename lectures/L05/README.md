@@ -7,7 +7,7 @@
   * Korrupt data.
   * Fördröjning.
 * Felmodell i buss.
-* **P01**:
+* **P02+**:
   * Testa systemet under fel.
 
 ---
@@ -44,6 +44,6 @@
 
 ## Nästa lektion
 * Fortsättning på dagens tema.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

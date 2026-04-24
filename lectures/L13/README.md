@@ -1,9 +1,9 @@
-# L13 - Repetition, övningsdugga och arbete med P01
+# L13 - Repetition, övningsdugga och arbete med P02+
 
 ## Dagordning
 * Repetition av kursens huvuddelar.
 * Övningsdugga.
-* **P01**:
+* **P02+**:
   * Fortsatt arbete.
 
 ---
@@ -14,7 +14,7 @@
   * Buss och noder.
   * Felmodell och tillförlitlighet.
 * Vara förberedd inför duggan.
-* Fortsätta arbetet med **P01**.
+* Fortsätta arbetet med **P02+**.
 
 ---
 
@@ -37,7 +37,7 @@
     * Därefter demonstreras och diskuteras lösningar i helklass.
 
 #### Projektarbete
-* Fortsätt implementationen av **P01**.
+* Fortsätt implementationen av **P02+**.
 * Säkerställ att systemet fungerar stabilt.
 
 ---
@@ -50,6 +50,6 @@
 
 ## Nästa lektion
 * **D01 – Dugga**.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

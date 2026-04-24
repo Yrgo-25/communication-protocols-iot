@@ -7,7 +7,7 @@
   * ACK
   * NACK
 * Koppling till protokollet (SEQ, TYPE).
-* **P01**:
+* **P02+**:
   * Införa kvittens i systemet.
 
 ---
@@ -44,6 +44,6 @@
 
 ## Nästa lektion
 * Fortsättning på dagens tema.
-* Fortsatt arbete med **P01**.
+* Fortsatt arbete med **P02+**.
 
 ---

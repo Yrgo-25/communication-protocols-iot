@@ -7,8 +7,9 @@ Erik Pihl ([erik.axel.pihl@gmail.com](mailto:erik.axel.pihl@gmail.com))
 ---
 
 # Kursplan – Kommunikationsprotokoll & IoT
-Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunikationsprotokoll i C++:
-* Föreläsningarna varvar teori och praktiskt arbete i projektet **P01**. 
+Kursen är projektbaserad och fokuserar på kommunikation i inbyggda system. 
+
+Föreläsningarna behandlar kommunikationslager och deras egenskaper, och kopplas direkt till projektet **P02+**.
 
 ---
 
@@ -18,19 +19,19 @@ Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunika
 | ----------- | ----- | -------- |
 | L01         | 22/4  | Frames (struktur, fält, serialisering) |
 | L02         | 29/4  | Byte-parsing och state machine |
-| L03         | 5/5   | Databussar och routing (del I), start av **P01** |
-| L04         | 8/5   | Databussar och routing (del II), arbete med **P01** |
-| L05         | 11/5  | Felmodell för databussar (del I), arbete med **P01** |
-| L06         | 11/5  | Felmodell för databussar (del II), arbete med **P01** |
-| L07         | 13/5  | ACK/NACK (del I), arbete med **P01** |
-| L08         | 15/5  | ACK/NACK (del II), arbete med **P01** |
+| L03         | 5/5   | Databussar och routing (del I), start av **P02+** |
+| L04         | 8/5   | Databussar och routing (del II), arbete med **P02+** |
+| L05         | 11/5  | Felmodell för databussar (del I), arbete med **P02+** |
+| L06         | 11/5  | Felmodell för databussar (del II), arbete med **P02+** |
+| L07         | 13/5  | ACK/NACK (del I), arbete med **P02+** |
+| L08         | 15/5  | ACK/NACK (del II), arbete med **P02+** |
 | L09         | 18/5  | CAN (Controller Area Network) |
 | L10         | 19/5  | **Vector CANalyzer-labb (obligatorisk)** |
-| L11         | 20/5  | Timeout, retries och dubbletthantering (del I), arbete med **P01** |
-| L12         | 22/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P01** |
-| L13         | 25/5  | Repetition, övningsdugga, arbete med **P01** |
-| L14         | 28/5  | **D01 – Dugga**, arbete med **P01** |
-| L15         | 29/5  | Slutförande och redovisning av **P01** |
+| L11         | 20/5  | Timeout, retries och dubbletthantering (del I), arbete med **P02+** |
+| L12         | 22/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P02+** |
+| L13         | 25/5  | Repetition, övningsdugga, arbete med **P02+** |
+| L14         | 28/5  | **D01 – Dugga**, arbete med **P02+** |
+| L15         | 29/5  | Slutförande och redovisning av **P02+** |
 
 ---
 
@@ -39,14 +40,14 @@ Kursen är projektbaserad och fokuserar på att stegvis bygga ett eget kommunika
 ## Examination och betygsnivåer
 
 ### Upplägg
-* Ett projekt (**P01**).
+* Ett projekt (**P02+**).
 * En skriftlig dugga (**D01**).
 * En obligatorisk labb (**CANalyzer**, L10).
 
 ---
 
 ### Poängfördelning
-* **P01**: upp till 4p (G = 2p, VG = 4p)
+* **P02+**: upp till 4p (G = 2p, VG = 4p)
 * **D01**: upp till 4p (G = 2p, VG = 4p)
 
 Totalt: 8 poäng
@@ -60,7 +61,7 @@ Totalt: 8 poäng
 * 6 < **VG** ≤ 8 poäng
 
 För godkänt krävs:
-* Godkänt resultat på **P01**.
+* Godkänt resultat på **P02+**.
 * Godkänt resultat på **D01**.
 * Genomförd labb (**L10**).
 
@@ -71,7 +72,7 @@ För godkänt krävs:
 ### Hårdvara
 Följande hårdvara finns tillgänglig på skolan:
 * **ESP32-S3**
-  * Huvudplattform i projektet (**P01**).
+  * Huvudplattform i projektet (**P02+**).
   * Används för implementation av kommunikation (I2C, RS-485, CAN) samt MQTT.
 * **RS-485-transceiver ([MAX485](https://www.electrokit.com/rs-485-sandare/mottagare?gad_source=1&gad_campaignid=17338847491&gbraid=0AAAAAD_OrGOlqvD9cVZXO3Az3sdXcfwlw&gclid=EAIaIQobChMIlL3bgI75kgMVmwuiAx0BXSYWEAQYASABEgJxqvD_BwE))**
   * Möjliggör implementation av RS-485-buss.
