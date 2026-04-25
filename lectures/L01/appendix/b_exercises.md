@@ -62,26 +62,28 @@ Du ska implementera frames i C++ via en strukt `comm::frame::Frame`.
 Er implementation ska valideras via ett befintligt testprogram.
 
 #### **1.** Inspektera filstruktur
-Observera katalogen [code](./code/):
-* [main.cpp](./code/source/main.cpp):
+Observera katalogen [code/cpp](./code/cpp/cpp/):
+* [main.cpp](./code/cpp/source/main.cpp):
   * Innehåller testprogrammet som ska validera er frame-implementation.
-* [comm/frame/def.h](./code/include/comm/frame/def.h):
+* [comm/frame/def.h](./code/cpp/include/comm/frame/def.h):
   * Innehåller definitioner av offsetar (indexpositioner) för framens olika fält, storlekar på fält med mera.
   * Enumerationsklasser `comm::frame::Type` ska implementeras i enlighet med specifikationerna.
-* [comm/frame/frame.h](./code/include/comm/frame/frame.h):
+* [comm/frame/frame.h](./code/cpp/include/comm/frame/frame.h):
   * Innehåller deklaration av strukten `comm::frame::Frame`.
-* [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp):
+* [comm/frame/frame.cpp](./code/cpp/source/comm/frame/frame.cpp):
   * Ska innehålla implementationsdetaljer för strukten `comm::frame::Frame`, exempelvis metoddefinitioner.
+
+Motsvarande kod skriven i C finns i [code/c](./code/c/).
 
 ---
 
 #### **2.** Skapa frame-typer
-I [comm/frame/type.h](./code/include/comm/frame/type.h), implementera enumerationsklassen `com::frame::Type` enligt beskrivningen ovan.
+I [comm/frame/type.h](./code/cpp/include/comm/frame/type.h), implementera enumerationsklassen `com::frame::Type` enligt beskrivningen ovan.
 
 ---
 
 #### **3.** Skapa frame-strukt
-I [comm/frame/frame.h](./code/include/comm/frame/frame.h), implementera strukten `comm::frame::Frame` enligt befintlig dokumentation:
+I [comm/frame/frame.h](./code/cpp/include/comm/frame/frame.h), implementera strukten `comm::frame::Frame` enligt befintlig dokumentation:
 * Lägg till medlemsvariabler enligt beskrivningen:
     * `payload[MaxPayloadLen]`
     * `seqNr`
@@ -96,7 +98,7 @@ I [comm/frame/frame.h](./code/include/comm/frame/frame.h), implementera strukten
 ---
 
 #### **4.** Implementera serialiseringsmetod
-I [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp), implementera metoden 
+I [comm/frame/frame.cpp](./code/cpp/source/comm/frame/frame.cpp), implementera metoden 
 `comm::frame::Frame::serialize()`, så att denna skriver följande till given buffer:
 * SOF = `0xA5F7` (big endian).
 * LEN: Payload-längden.
@@ -114,7 +116,7 @@ Returnera:
 ---
 
 #### **5.** Implementera deserialiseringsmetod
-I [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp), implementera metoden `comm::frame::Frame::deserialize()`, så att denna:
+I [comm/frame/frame.cpp](./code/cpp/source/comm/frame/frame.cpp), implementera metoden `comm::frame::Frame::deserialize()`, så att denna:
 * Validerar given data:
     * SOF är korrekt.
     * LEN inom gräns.
@@ -126,7 +128,7 @@ I [comm/frame/frame.cpp](./code/source/comm/frame/frame.cpp), implementera metod
 ---
 
 #### **6.** Validera implementationen
-Kompilera och kör testprogrammet i [main.cpp](./code/source/main.cpp) i en Linuxterminal:
+Kompilera och kör testprogrammet i [main.cpp](./code/cpp/source/main.cpp) i en Linuxterminal:
 
 ```bash
 make
