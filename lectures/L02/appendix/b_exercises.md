@@ -6,54 +6,43 @@ Följande övningsuppgifter bygger vidare på övningsuppgifterna från
 [L01](../../L01/appendix/b_exercises.md).
 
 ### **1.** Implementera en frame-parser
-Lägg till filen [comm/frame/parser.h](./code/parser.h) i ert projekt.  
+Lägg till given fil [comm/frame/parser.h](./code/cpp/parser.h) i ert projekt.  
 Definiera metoddefinitionerna i en ny fil `comm/frame/parser.cpp`.
 
 Parsern ska:
-* Vänta på SOF byte 1.
-* Vänta på SOF byte 2.
-* Läsa LEN.
-* Samla bytes tills hela framen enligt längdfältet har mottagits.
-* Markera att en komplett frame har mottagits via `isFrameReady()`.
-* Ge tillgång till frame-data via `extractFrame()`, som även validerar framen via 
-`Frame::deserialize()`.
-* Om framen är ogiltig ska parsern återgå till att söka efter ny SOF.
+* **1.** Vänta på SOF byte 1.
+* **2.** Läsa SOF byte 2. Om en felaktig byte tas emot ska parsern starta om från början.
+* **3.** Läsa LEN. Om en felaktig payload-längd tas emot (`LEN > MaxPayloadLen`) ska parsern återställas.
+* **4.** Läsa TYPE.
+* **5.** Läsa DST.
+* **6.** Läsa SRC.
+* **7.** Läsa SEQ.
+* **8.** Läsa payload (DATA) om tillgänligt.
+* **0.** Läsa CHK byte 1.
+* **10.** Läsa CHK byte 2.
+* **11.** Markera att en komplett frame har mottagits via `isFrameReady()`.
+* **12.** Ge tillgång till frame-data via `extractFrame()`, som även validerar framen via 
+`Frame::deserialize()`.  
+Om framen är ogiltig ska parsern återgå till att söka efter ny SOF.
+
+Motsvarande parser skriven i C finns här:
+* [comm/frame/parser.h](./code/c/include/comm/frame/parser.h)
+* [comm/frame/parser.c](./code/c/source/comm/frame/parser.c)
 
 ---
 
-### **2.** Skicka PONG vid mottagande av PING
-I en ny fil `comm/frame/handler.h`, deklarera en funktion med namnet `handleFrame()`:
-
-``` cpp
-bool handleFrame(const Frame& txFrame, Frame& rxFrame) noexcept;
-```
-
-Denna funktion ska läsa `txFrame` och skicka returdata via `rxFrame`:
-* Om TYPE == PING:
-    * Byt DST/SRC.
-    * Behåll SEQ.
-    * TYPE = PONG.
-    * LEN = 0 (payload tom).
-    * Returnera `true`.
-* Annars:
-    * Returnera `false`.
-
-Definiera `handleFrame()` i en ny fil `comm/frame/handler.cpp`.
-
+### **2.** Sammankoppling
+Använd bifogat testprogram i [main.cpp](./code/cpp/main.cpp), som gör följande:
+* **1.** Skapar en PING-frame. 
+* **2.** Serialiserar framen. 
+* **3.** Matar in bytes en och en via en frame parser. 
+* **4.** När framen har extraherats:
+    * Anropar `handleFrame()` för att svara på mottagen frame.
+    * Serialiserar mottagen frame (som bör vara en PONG-frame).
+    * Skriver ut resultatet på hexadecimal form.
 ---
 
-### **3.** Sammankoppling
-Använd bifogat testprogram i [main.cpp](./code/main.cpp):
-* 1. Skapa en PING-frame. 
-* 2. Serialisera framen. 
-* 3. Mata in bytes en och en via en frame parser. 
-* 4. När framen har extraherats:
-    * Anropa handleFrame().
-    * Serialisera PONG.
-    * Skriv ut resultat på hexadecimal form.
----
-
-### **4.** Robust SOF-hantering (om tid finns)
+### **3.** Robust SOF-hantering (om tid finns)
 Verifiera följande scenario:
 * En byte `0xA5` (SOF1) tas emot.
 * Nästa byte är inte `0xF7` (SOF2), utan exempelvis `0xA5` igen.

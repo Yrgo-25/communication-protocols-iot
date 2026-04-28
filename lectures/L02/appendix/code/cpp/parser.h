@@ -5,10 +5,13 @@
 
 #include <cstdint>
 
-#include "comm/frame/frame.h"
+#include "comm/frame/def.h"
 
 namespace comm::frame
 {
+/** Frame structure. */
+struct Frame;
+
 /**
  * @brief Frame parser implementation.
  * 
@@ -16,9 +19,6 @@ namespace comm::frame
  */
 class Parser final
 {
-/**
- * @brief Frame parser implementation.
- */
 public:
     /**
      * @brief Constructor.
