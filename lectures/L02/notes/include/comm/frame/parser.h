@@ -85,6 +85,8 @@ private:
         Ready,          ///< Frame ready.
     };
 
+    bool reportParseError() noexcept;
+
     /** Buffer holding parsed frame data. */
     std::uint8_t myBuf[MaxFrameLen];
 

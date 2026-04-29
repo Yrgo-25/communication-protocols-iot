@@ -12,12 +12,12 @@ Definiera metoddefinitionerna i en ny fil `comm/frame/parser.cpp`.
 Parsern ska:
 * **1.** Vänta på SOF byte 1.
 * **2.** Läsa SOF byte 2. Om en felaktig byte tas emot ska parsern starta om från början.
-* **3.** Läsa LEN. Om en felaktig payload-längd tas emot (`LEN > MaxPayloadLen`) ska parsern återställas.
+* **3.** Läsa LEN.
 * **4.** Läsa TYPE.
 * **5.** Läsa DST.
 * **6.** Läsa SRC.
 * **7.** Läsa SEQ.
-* **8.** Läsa payload (DATA) om tillgänligt.
+* **8.** Läsa payload (DATA) om tillgängligt.
 * **0.** Läsa CHK byte 1.
 * **10.** Läsa CHK byte 2.
 * **11.** Markera att en komplett frame har mottagits via `isFrameReady()`.

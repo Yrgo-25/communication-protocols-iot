@@ -123,16 +123,12 @@ bool frame_parser_process_byte(frame_parser_t* self, const uint8_t byte)
         }
         case STATE_WAIT_FOR_LEN:
         {
-            // Check if the given payload length is valid, handle parse error if not.
-            if (FRAME_MAX_DATA_LEN < byte) { return handle_parse_error(self); }
             self->buf[self->parsed_bytes++] = byte;
             self->state_id++;
             break;
         }
         case STATE_WAIT_FOR_TYPE:
         {
-            // Check if the given frame type is valid, handle parse error if not.
-            if ((uint8_t)(FRAME_TYPE_UNKNOWN) <= byte) { return handle_parse_error(self); }
             self->buf[self->parsed_bytes++] = byte;
             self->state_id++;
             break;

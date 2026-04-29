@@ -42,6 +42,13 @@
 
 ---
 
+## Lektionsanteckningar
+Lösningsförslag för övningsuppgifterna finns [här](./notes/README.md).
+
+---
+
+---
+
 ## Utvärdering
 * Kan ni förklara varför vi behöver:
     * SOF (synk).
