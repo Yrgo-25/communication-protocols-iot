@@ -13,11 +13,11 @@ namespace comm::frame
  */
 enum class Type : std::uint8_t
 {
-    ///< Ping frame.
-    ///< Pong frame.
-    ///< Status request frame.
-    ///< Status response frame.
-    ///< Unknown frame.
+    Ping,           ///< Ping frame.
+    Pong,           ///< Pong frame.
+    StatusRequest,  ///< Status request frame.
+    StatusResponse, ///< Status response frame.
+    Unknown,        ///< Unknown frame.
 };
 
 /**
@@ -42,7 +42,7 @@ struct Offset
      */
     static constexpr std::size_t chk(const std::size_t dataLen) noexcept
     {
-        return Data+ dataLen;
+        return Data + dataLen;
     }
 };
 

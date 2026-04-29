@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <cstdio>
 
+#include "comm/frame/def.h"
 #include "comm/frame/frame.h"
-#include "comm/frame/type.h"
 
 using namespace comm;
 
