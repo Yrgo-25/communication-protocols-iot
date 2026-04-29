@@ -4,9 +4,9 @@ Lösningsförslag till övningsuppgifterna i [bilaga B](../appendix/b_exercises.
 ---
 
 ## Översikt
-Implementationen består av en frame-representation via strukturen `comm::frame::Frame`, i enlighet med given framespecifikation.
+Implementationen består av en frame-representation via strukten `comm::frame::Frame`, i enlighet med given framespecifikation.
 
-Följande funktionalitet implementeras:
+Följande funktionalitet har implementerats:
 * En frame kan serialiseras till en byte-buffer via `serialize()`.
 * En frame kan deserialiseras från en byte-buffer via `deserialize()`.
 * Inkommande data valideras innan den accepteras.
@@ -15,7 +15,7 @@ Följande funktionalitet implementeras:
 * [comm/frame/def.h](./include/comm/frame/def.h) Innehåller protokolldefinitioner (offsetar storlekar på fält samt frame-typer).
 * [comm/frame/frame.h](./include/comm/frame/frame.h): Innehåller deklaration av strukten `comm::frame::Frame`.
 * [comm/frame/frame.cpp](./source/comm/frame/frame.cpp): Innehåller implementationsdetaljer för strukten `comm::frame::Frame`.
-* [main.cpp](./source/main.cpp): Innehåller testprogrammet som validera frame-implementationen.
+* [main.cpp](./source/main.cpp): Innehåller testprogrammet som validerar frame-implementationen.
 
 ---
 
@@ -74,7 +74,6 @@ Vid fel returneras `false`.
 ---
 
 ## Test
-
 Lösningen kan verifieras via testprogrammet:
 
 ```bash

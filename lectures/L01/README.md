@@ -37,6 +37,11 @@
 
 ---
 
+## Lektionsanteckningar
+Lösningsförslag för övningsuppgifterna finns [här](./notes/README.md).
+
+---
+
 ## Utvärdering
 * Förstår ni vad ett kommunikationsprotokoll är?
 * Förstår ni varför följande fält behövs:
