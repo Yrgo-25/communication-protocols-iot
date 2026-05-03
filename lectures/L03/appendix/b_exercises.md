@@ -2,12 +2,12 @@
 
 ## Övningsuppgifter
 Vi bygger en simulerad miljö med:
-* En buss (`comm::bus::Interface` + `comm::bus::Stub`).
-* Noder (`comm::node::Interface` + `comm::node::Stub`).
+* En buss (`comm::bus::Interface` samt `comm::bus::Stub`).
+* Noder (`comm::node::Interface` samt `comm::node::Stub`).
 * Varje nod använder:
     * `comm::frame::Parser`.
     * `comm::frame::Frame`.
-    * `handleFrame()` från L02 (PING → PONG).
+    * `handleFrame()` från testprogrammet i L02.
 
 ---
 

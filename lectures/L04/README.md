@@ -2,20 +2,22 @@
 
 ## Dagordning
 * Repetition: Buss och noder.
-* Från bytes till beteende:
-  * Extrahera av frames.
-  * Filtrera frames via DST.
-* PING → PONG.
-* **P02+**:
-  * Få kommunikation att fungera mellan noder.
+* Gemensam övning: Status response till status request mellan noder:
+  * Serialisering av frame (frame → bytes).
+  * Sändning via buss (byte för byte, FIFO).
+  * Parsning av bytes på nodnivå.
+  * Extrahering av frame (bytes → frame).
+  * Filtrering på destinationsadress.
+  * Hantering av frame vid korrekt destination.
+* Fortsatt arbete med **P02+**.
 
 ---
 
 ## Mål med lektionen
+* Förstå hela flödet från sändning till mottagning (frame → buss → parser → frame).
 * Kunna ta emot och tolka frames i en nod.
 * Kunna filtrera på destinationsadress.
-* Kunna implementera PING → PONG.
-* Kunna få minst två noder att kommunicera via bussen.
+* Kunna svara på en förfrågan (request → response).
 
 ---
 
@@ -27,13 +29,17 @@
 ## Instruktioner
 
 ### Under lektionen
-* Fortsätt med övningsuppgifterna i [bilaga B](../L03/appendix/b_exercises.md) från L03.
+* Övningen genomförs i helklass.
+* Fortsätt med **P02+** i grupper.
+* Övningsuppgifterna från [bilaga B](../L03/appendix/b_exercises.md) (L03) är valfria och kan användas som stöd eller referens.
 
 ---
 
 ## Utvärdering
-* Fungerar PING → PONG mellan två noder?
-* Ignorerar andra noder framen?
+* Beskriv hela flödet från sändning till mottagning:
+  * frame → buss → nod → parser → frame.
+* Förstå varför en komplett frame krävs innan data används.
+* Förstå filtrering baserat på destinationsadress (DST).
 
 ---
 

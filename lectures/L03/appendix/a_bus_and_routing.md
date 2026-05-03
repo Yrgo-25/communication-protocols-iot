@@ -12,8 +12,8 @@ I en sådan topologi är det normalt att:
 ---
 
 ### Broadcast
-I en broadcast-buss skickas varje byte "till alla".
-Det betyder:
+I en broadcast-buss skickas varje byte till alla noder i systemet.
+Detta innebär att:
 * En nod sänder en byte.
 * Övriga noder tar emot samma byte.
 
@@ -83,7 +83,7 @@ I en mer realistisk simulering kan vi lägga till en felmodell:
 
 För att testfall ska vara reproducerbara behöver felmodellen vara deterministisk.
 Exempel:
-* "Droppa alltid byte nummer 5 i första sändningen."
-* "Korrupta alltid första checksummabyten i varannan frame."
+* Byte nummer 5 droppas alltid i den första sändningen.
+* Den första checksummabyten i varannan frame görs alltid korrupt.
 
 ---
