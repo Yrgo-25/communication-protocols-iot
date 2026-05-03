@@ -7,15 +7,17 @@
   * Korrupt data.
   * Fördröjning.
 * Felmodell i buss.
-* **P02+**:
-  * Testa systemet under fel.
+* Fortsatt arbete med **P02+**.
 
 ---
 
 ## Mål med lektionen
 * Förstå att kommunikation inte är perfekt.
-* Kunna införa fel i den simulerade bussen.
-* Kunna observera hur systemet påverkas av fel.
+* Förstå hur olika fel uppstår i en databuss:
+  * Tappade bytes.
+  * Korrupt data.
+  * Fördröjning.
+* Förstå hur fel påverkar byte-ström och frames.
 * Förstå varför tillförlitlighet behövs (ACK/NACK).
 
 ---
@@ -31,14 +33,21 @@
 * Läs igenom [bilaga A](./appendix/a_error_model.md) för information gällande felmodeller.
 
 ### Under lektionen
-* Genomför övningsuppgifter i [bilaga B](./appendix/b_exercises.md).
+* Genomgång av felmodeller.
+* Fortsätt med **P02+** i grupper.
+* Övningsuppgifterna i [bilaga B](./appendix/b_exercises.md) är valfria och kan användas som stöd eller referens.
 
 ---
 
 ## Utvärdering
-* Vad händer när en frame blir fel?
-* Återhämtar sig parsern?
-* Fungerar systemet som förväntat?
+* Beskriv hur följande fel påverkar kommunikationen:
+  * Tappade bytes.
+  * Korrupt data.
+  * Fördröjning.
+* Hur påverkas frame-parsern av fel i byte-strömmen?
+* Varför måste felaktig frame måste ignoreras.
+* Förstå begränsningar i en lösning utan tillförlitlighet (ACK/NACK).
+* Beskriv vad som krävs för att upptäcka och hantera fel.
 
 ---
 

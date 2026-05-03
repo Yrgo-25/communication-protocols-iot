@@ -2,20 +2,21 @@
 
 ## Dagordning
 * Repetition: Fel i kommunikationen (L05).
-* Kontrollerade fel:
-  * Drop.
-  * Korruption.
-  * Fördröjning.
-* Felmodell i buss.
-* **P02+**:
-  * Testa och jämföra felbeteende.
+* Gemensam övning:
+  * Tolkning av byte-ström med fel.
+  * Identifiering av fel (drop, korruption, fördröjning).
+  * Konsekvenser för frames och systembeteende.
+* Fortsatt arbete med **P02+**.
 
 ---
 
 ## Mål med lektionen
-* Kunna införa kontrollerade fel i den simulerade bussen.
-* Kunna reproducera fel (samma beteende flera gånger).
-* Kunna analysera hur olika fel påverkar systemet.
+* Förstå hur kontrollerade fel påverkar byte-ström och frames.
+* Kunna analysera effekter av:
+  * Tappade bytes.
+  * Korrupt data.
+  * Fördröjning.
+* Förstå skillnaden mellan slumpmässiga och kontrollerade fel.
 * Förstå vilka problem som måste lösas (tillförlitlighet).
 
 ---
@@ -28,14 +29,18 @@
 ## Instruktioner
 
 ### Under lektionen
-* Fortsätt med övningsuppgifterna i [bilaga B](../L05/appendix/b_exercises.md) från L05.
+* Övningen genomförs i helklass (tolkning av byte-ström med fel).
+* Fortsätt med **P02+** i grupper.
+* Övningsuppgifterna i [bilaga B](../L05/appendix/b_exercises.md) (L05) är valfria och kan användas som stöd eller referens.
 
 ---
 
 ## Utvärdering
-* Kan ni reproducera ett fel?
-* Vad är skillnaden mellan slumpmässigt och kontrollerat fel?
-* Hur påverkas systemets beteende?
+* Beskriv skillnaden i effekt mellan:
+  * Tappade bytes.
+  * Korrupt data.
+  * Fördröjning.
+* Beskriv skillnaden mellan slumpmässiga och kontrollerade fel.
 
 ---
 

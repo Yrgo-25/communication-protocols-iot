@@ -1,64 +1,70 @@
 # Bilaga A
 
 ## Felmodell för databussar
-I verkliga embedded-system kan följande inträffa:
-* En byte tappas.
+I verkliga inbyggda system är kommunikationen inte perfekt. Följande fel kan uppstå:
+* En byte tappas (data försvinner).
 * En byte ändras (bitflip).
 * Bytes fördröjs.
-* Frames kolliderar (vid vissa bussar).
+* Frames kolliderar (på vissa bussar med flera sändare).
 
-I vår simulering vill vi kunna återskapa detta kontrollerat.
-
----
-
-### Varför determinism?
-Om vi introducerar slumpmässiga fel:
-* Tester blir icke-reproducerbara.
-* Debugging blir svårt.
-* Resultat varierar mellan körningar.
-
-Istället använder vi deterministiska regler:
-Exempel:
-* Droppa alltid byte nummer 5.
-* Korrupta alltid första checksummabyten.
-* Fördröj varje byte med 3 tick.
-
-Detta gör att testfall kan upprepas exakt.
+Dessa fel påverkar hur information tolkas hos mottagaren.
 
 ---
 
-### Felmodell i bussen
-Vi kan utöka `comm::bus::Stub` med:
-* En räknare för antal skickade bytes (`myByteCounter`).
-* En regelmotor (om X == `myByteCounter` → droppa byten).
-* En fördröjningskö i form av en räknare som räknas nedåt (`myDelayCounter`).
+## Effekter av fel
+Fel i byte-strömmen kan leda till:
+* Felaktig tolkning av data.
+* Att en frame inte kan tolkas alls.
+* Att flera frames blandas ihop.
+* Att system reagerar vid fel tidpunkt (fördröjning).
 
-Exempel:
-
-```cpp
-constexpr std::uint8_t dropByte{5U};
-
-// Drop byte 5.
-if (dropByte == myByteCounter) { return true; }
-```
-
-eller
-
-```cpp
-constexpr std::size_t bit{0U};
-
-// Flip bit 0.
-byte ^= (1U << bit);
-```
+Det är därför viktigt att systemet kan hantera fel på ett kontrollerat sätt.
 
 ---
 
-### Parserns återhämtning
-Parsern ska:
-* Förkasta felaktiga frames (vid checksum mismatch).
-* Återgå till tillståndet `WaitForSof1`.
-* Kunna hitta nästa korrekta frame i byte-strömmen.
+## Varför determinism?
+Vid analys av fel vill man kunna upprepa samma scenario flera gånger.
 
-Detta är avgörande innan vi bygger vidare med tillförlitlighet.
+Slumpmässiga fel leder till:
+* Svår felsökning.
+* Olika resultat mellan körningar.
+
+Deterministiska fel innebär att:
+* Samma fel uppstår varje gång.
+* Beteendet blir förutsägbart.
+* Systemet kan testas systematiskt.
+
+Exempel på deterministiska fel:
+* En specifik byte tappas varje gång.
+* En viss bit ändras konsekvent.
+* All data fördröjs lika mycket.
+
+---
+
+## Felmodell
+En felmodell beskriver:
+* Vilka typer av fel som kan uppstå.
+* När de uppstår.
+* Hur ofta de uppstår.
+
+En enkel felmodell kan innehålla:
+* Tappade bytes.
+* Korrupt data.
+* Fördröjning.
+
+Syftet med felmodellen är att förstå hur systemet reagerar när kommunikationen inte fungerar som förväntat.
+
+---
+
+## Robusthet i system
+Ett robust system ska:
+* Ignorera felaktig data.
+* Kunna återhämta sig efter fel.
+* Fortsätta fungera när enstaka fel uppstår.
+
+Detta är en förutsättning för att senare kunna införa tillförlitlighet, till exempel:
+* Kvittens (ACK/NACK).
+* Omsändning.
+* Tidsgränser (timeouts).
 
 ---
