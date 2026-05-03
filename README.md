@@ -11,7 +11,7 @@ Större delen av kursen består av projektarbete med IoT-drivers. Genomgångarna
 ## Struktur
 
 ```text
-exam/        Tentameninformation och övningstentamen
+exam/        Tentameninformation och övningsdugga
 info/        Kursinformation, schema och examination
 lectures/    Föreläsningar, litteratur och övningsuppgifter
 project/     Projektbeskrivning, krav och inlämningsinstruktioner

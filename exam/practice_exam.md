@@ -21,7 +21,7 @@ Bidrag till kursens slutpoäng:
 * Anta att vår checksumma är 16-bitars summering av alla bytes fram till CHK-fältet.
 * Fält större än 1 byte (SOF, SEQ, CHK) skickas big-endian.
 
-Vi använder framestrukturen:
+Vi använder följande framestruktur:
 
 ```
 SOF (2) | LEN (1) | TYPE (1) | DST (1) | SRC (1) | SEQ (2) | DATA (N) | CHK (2)
@@ -87,7 +87,7 @@ Anta att en frame-parser använder följande tillstånd:
 * `Ready`
 
 **a)** Beskriv kort vad parsern gör i `WaitForSof1` och `WaitForSof2`.  
-**b)** Vad är en rimlig strategi om en checksumman blir fel?
+**b)** Vad är en rimlig strategi om checksumman blir fel?
 **c)** Vad betyder det att parsern ska "återhämta sig" från skräpdata?
 
 ---
@@ -104,18 +104,18 @@ Vi har en broadcast-buss där alla noder tar emot alla bytes.
 <div style="page-break-before: always;"></div>
 
 ### **5.** ACK/NACK (3 p)
-**a)** När ska en nod skicka `Ack` i vår modell?  
-**b)** När kan `Nack` vara svårt eller omöjligt att skicka?  
-**c)** Varför måste `Ack/Nack` referera till `SEQ`?
+**a)** När ska en nod skicka `ACK` i vår modell? Ta hänsyn till skillnaden mellan request/response och envägsmeddelanden.  
+**b)** När kan `NACK` vara svårt eller omöjligt att skicka?  
+**c)** Varför måste `ACK/NACK` referera till `SEQ`?
 
 ---
 
 ### **6.** Timeout och retry (3p)
-Node A skickar en applikationsframe som kräver ACK.
+Anta att en nod skickar en frame som saknar svar och därför kräver ACK.
 
 **a)** Vad händer om ACK uteblir? Beskriv flödet (timeout → retry).  
 **b)** Vid retry: Ska `SEQ` ändras eller vara samma? Varför?  
-**c)** Vad är en dubblett och hur ska mottagaren bete sig?
+**c)** Vad är en dubblett och hur bör mottagaren hantera den i princip?
 
 ---
 

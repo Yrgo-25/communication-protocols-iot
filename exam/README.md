@@ -1,47 +1,51 @@
-# Tentamen - Kommunikationsprotokoll & IoT
+# Dugga - Kommunikationsprotokoll & IoT
 
 ## Information
-Tentamen täcker:
-* Design av egna kommunikationsprotokoll (frame‑struktur).
-* Skillnaden mellan byte‑ström och strukturerad frame.
+Dugga täcker:
+
+* Design av egna kommunikationsprotokoll (frame-struktur).
+* Skillnaden mellan byte-ström och strukturerad frame.
 * Serialisering och deserialisering.
 * Validering (SOF, längd, typ, checksum).
-* State‑machine parsing.
+* State-machine parsing.
 * Adressering (DST/SRC) och routing mellan noder.
 * Sekvensnummer (SEQ) och dess syfte.
-* Skillnaden mellan integritet (checksum) och leveransgaranti (ACK/retry).
-* Timeout och retry‑mekanismer.
-* Dubbletthantering.
-* Översiktlig förståelse för RS‑485, CAN, I2C och MQTT.
-* Lagerindelning (Frame → Parser → Transport → Applikation).
+* Skillnaden mellan integritet (checksum) och leveransgaranti.
+* ACK/NACK och när de används.
+* Timeout och retry-mekanismer.
+* Dubbletter och deras konsekvenser.
+* Fel i byte-ström:
+  * Tappade bytes.
+  * Korrupt data.
+  * Fördröjning.
 
 ---
 
 ### Uppdelning
 Tentamen är uppdelad i:
-* **G‑uppgifter** - Grundläggande förståelse för:
-    * Frame‑design.
-    * Parserlogik.
-    * Adressering och sekvensnummer.
-    * Enkel analys av kommunikationsflöden.
-* **VG‑uppgifter** - Fördjupning inom:
-    * Tillförlitlig kommunikation (ACK/NACK, timeout, retry)
-    * Robust felhantering (skriv ned hur systemet återhämtar sig).
-    * Analys av dubbletter och fel ordning.
-    * Arkitektur och lagerindelning.
+* **G-uppgifter** - Grundläggande förståelse för:
+  * Frame-design och checksum-beräkning.
+  * Parserlogik och byte-ström.
+  * Adressering (DST/SRC) och sekvensnummer (SEQ).
+  * Tolkning av frames i en byte-ström.
+* **VG-uppgifter** - Fördjupning inom:
+  * Tillförlitlig kommunikation (ACK/NACK, timeout, retry).
+  * Analys av fel i byte-ström och deras konsekvenser.
+  * Dubbletter och varför de uppstår.
+  * Systemets beteende vid uteblivna svar.
 
 ---
 
 ### Genomförande
 Tentamen genomförs med papper och penna:
 * Inga hjälpmedel är tillåtna.
-* Byte‑sekvenser och checksum‑beräkningar ska kunna göras manuellt.
-* Ni ska kunna rita frames och parser‑state‑diagram.
+* Byte-sekvenser och checksum-beräkningar ska kunna göras manuellt.
+* Ni ska kunna tolka och analysera byte-strömmar.
 
 ---
 
-## Övningstenta
-* Följande [övningstentamen](./practice_exam.md) visar vad som ni förväntas kunna.
-* Övningstentamen går att ladda ned som PDF [här](./practice_exam.pdf).
+## Övningsdugga
+* Följande [övningsdugga](./practice_exam.md) visar vad ni förväntas kunna.
+* Övningsduggan går att ladda ned som PDF [här](./practice_exam.pdf).
 
 ---
