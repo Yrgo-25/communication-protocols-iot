@@ -1,85 +1,88 @@
 # Bilaga A
 
 ## ACK och NACK
-ACK och NACK är två frametyper, som används för att indikera att en frame togs emot (eller inte)
-av önskad mottagare:
-* ACK (*Acknowledge*) indikerar att mottagaren tog emot framen..
-* NACK (*Not Acknowledge*) indikerar att mottagaren inte tog emot framen på grund av något fel (timeout, trasig frame eller liknande).
-
-### Varför räcker inte checksumma?
-Checksumma/CRC hjälper oss att upptäcka att data är trasig.
-
-Men checksumman indikerar inte:
-* Om en frame tappades.
-* Om mottagaren faktiskt tog emot framen.
-* Om mottagaren hann processa framen.
-
-Följande gäller:
-* Checksumma medför integritet, men inte leveransgaranti.
-* För att få detta används normalt ACK- och NACK-frames.
-* Om en frame är för trasig kan det vara svårt att skicka ett NACK till sändaren; därmed behövs
-även timeouts och retries (behandlas i L06) för att få fullständig leveransgaranti.
+ACK och NACK är två typer av meddelanden som används för att indikera om en frame har tagits emot korrekt:
+* ACK (*Acknowledge*) indikerar att mottagaren har tagit emot framen korrekt.
+* NACK (*Negative Acknowledge*) indikerar att något gick fel vid mottagningen.
 
 ---
 
-### ACK och NACK som meddelandetyper
-I vårt protokoll inför vi följande meddelandetyper:
-* `Type::Ack`
-* `Type::Nack`
+## Varför räcker inte checksumma?
+Checksumma används för att upptäcka fel i data (integritet). Men checksumma säger dock inget om:
+* En frame tappades på vägen.
+* Mottagaren faktiskt tog emot framen.
+* Mottagaren hann behandla framen.
 
-Regel:
-* ACK/NACK refererar alltid till `SEQ` i headern.
+Detta innebär att:
+* Checksumma ger integritet.
+* ACK/NACK ger information om leverans.
+
+För fullständig leveransgaranti krävs även:
+* Timeout.
+* Omsändning (retry).
+
+---
+
+## ACK/NACK och sekvensnummer (SEQ)
+För att koppla ett svar till rätt frame används ett sekvensnummer (SEQ):
+* En skickad frame har ett SEQ.
+* Mottagaren svarar med ACK eller NACK med samma SEQ.
+* Sändaren kan därmed avgöra vilken frame som bekräftas.
 
 Exempel:
-* `node1` skickar StatusRequest med `SEQ = 0x0123` till `node2`.
-* `node2` tar emot denna request och skickar tillbaka ACK med `SEQ = 0x0123` till `node1`,
-för att indikera att framen har tagits emot.
+* En nod skickar en request med ett visst SEQ.
+* Mottagaren svarar med ACK med samma SEQ.
+* Sändaren vet då att just den framen nådde fram.
 
 ---
 
-#### När skickas ACK?
-Policy för kursen (enkel och tydlig):
-* Alla applikationsframes (Ping, Pong, StatusRequest, StatusResponse) ska ACKas när de mottagits korrekt och är adresserade till noden.
+## När skickas ACK?
+ACK används endast för frames som saknar ett naturligt svar.
 
-För en given nod som tar emot en frame gäller att:
-* ACK skickas till sändarnoden om framen deserialiserades korrekt.
-* ACK skickas endast om noden är den avsedda mottagaren.
+ACK skickas när en frame:
+* Har tagits emot korrekt.
+* Är adresserad till mottagaren.
+* Inte ingår i ett request/response-par.
+
+Exempel där ingen ACK/NACK skickas (svaret fungerar som kvittens):
+* Request/response:
+  * Ping → Pong
+  * StatusRequest → StatusResponse  
+
+Exempel där ACK/NACK skickas:
+* Envägsmeddelanden (t.ex. kommandon som inte förväntar sig svar)
 
 ---
 
-#### När skickas NACK?
-NACK är mer subtil. 
-
-En enkel policy är att:
-* Om parsern lyckas extrahera en frame men `deserialize()` misslyckas → försök skicka NACK.
+## När skickas NACK?
+NACK kan skickas när:
+* En frame kan identifieras men innehåller fel.
 
 Begränsning:
-* Om framen är så trasig att vi inte kan läsa DST/SRC/SEQ på ett säkert sätt kan vi inte routa ett NACK korrekt.
-* Då blir det "tyst fel" och sändaren får timeout (behandlas i L06).
+* Om framen är för trasig kan viktig information saknas.
+* Då går det inte att skicka ett korrekt NACK.
 
-Detta är bra pedagogiskt:
-* NACK är "nice to have".
-* Timeout/retry är det robusta skyddsnätet.
-
----
-
-### Koppling till felmodell (L04)
-Med en deterministisk felmodell kan vi visa:
-* Korruption → checksum fail → ingen korrekt leverans → NACK (om möjligt).
-* Drop → inget mottaget → ingen ACK/NACK → timeout i L06.
-* Fördröjning → ACK kommer sent → timeoutgräns blir viktig i L06.
+I dessa fall uppstår ett tyst fel:
+* Ingen ACK eller NACK skickas.
+* Sändaren måste istället använda timeout.
 
 ---
 
-### Transportlogik (för tillfället utan timeout)
-I L05 bygger vi ett tunt transportlager som endast:
-* Tar emot applikationsframes (från noden).
-* Skickar ACK eller NACK.
-* Exponerar "utgående frames" som noden kan sända via bussen.
+## Koppling till felmodell
+Olika fel ger olika beteenden:
+* Korrupt data → fel upptäcks → NACK (om möjligt).
+* Tappad frame → inget svar → timeout.
+* Fördröjning → sent svar → timeoutgränser blir viktiga.
 
-I L06 utökas detta med att:
-* "väntan på ACK"
-* "timeout"
-* "retry"
+---
+
+## Helhetsbild
+ACK/NACK är en del av en större lösning:
+* Checksumma → upptäcker fel.
+* ACK/NACK → signalerar mottagning.
+* Timeout → hanterar uteblivna svar.
+* Retry → försöker igen.
+
+Tillsammans ger detta ett robust kommunikationssystem.
 
 ---
