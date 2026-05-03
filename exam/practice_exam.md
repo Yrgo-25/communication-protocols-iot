@@ -6,11 +6,11 @@
 * Papper och penna.
 
 ### Poänggränser och betygsnivåer
-Totalt: 22 poäng.
+Totalt: 25 poäng.
 
 Betygsgränser:
-* **G:** Minst 10 poäng.
-* **VG:** Minst 16 poäng.
+* **G:** Minst 12 poäng.
+* **VG:** Minst 19 poäng.
 
 Bidrag till kursens slutpoäng:
 * Betyget **G** ger 2 poäng till kurssammanställningen.
@@ -18,10 +18,8 @@ Bidrag till kursens slutpoäng:
 
 ### Instruktioner
 * Svara kort och tydligt.
-* Anta att vår checksumma är **16-bitars summering av bytes** (modulo `2^16`):
-  * `CHK = SUM(all bytes från SOF till sista payloadbyte)`
-  * CHK-fältet ingår inte i summeringen.
-* Fält större än 1 byte (SOF, SEQ, CHK) skickas **big-endian**.
+* Anta att vår checksumma är 16-bitars summering av alla bytes fram till CHK-fältet.
+* Fält större än 1 byte (SOF, SEQ, CHK) skickas big-endian.
 
 Vi använder framestrukturen:
 
@@ -71,24 +69,28 @@ Regler:
 
 ---
 
-### **3.** Parser (state machine) (3p)
-Anta att parsern använder följande states:
+<div style="page-break-before: always;"></div>
 
+### **3.** Parser (3p)
+Anta att en frame-parser använder följande tillstånd:
 * `WaitForSof1`
 * `WaitForSof2`
 * `WaitForLen`
-* `WaitForHeader`
+* `WaitForType`
+* `WaitForDst`
+* `WaitForSrc`
+* `WaitForSeq1`
+* `WaitForSeq2`
 * `WaitForPayload`
-* `WaitForChecksum`
+* `WaitForChk1`
+* `WaitForChk2`
 * `Ready`
 
 **a)** Beskriv kort vad parsern gör i `WaitForSof1` och `WaitForSof2`.  
-**b)** Vad är en rimlig strategi om en checksumma blir fel (CHK fail)?  
+**b)** Vad är en rimlig strategi om en checksumman blir fel?
 **c)** Vad betyder det att parsern ska "återhämta sig" från skräpdata?
 
 ---
-
-<div style="page-break-before: always;"></div>
 
 ### **4.** Broadcast-buss och routing (3p)
 Vi har en broadcast-buss där alla noder tar emot alla bytes.
@@ -98,6 +100,8 @@ Vi har en broadcast-buss där alla noder tar emot alla bytes.
 **c)** Nod B får en korrekt frame men `DST != B:s adress`. Vad ska B göra?
 
 ---
+
+<div style="page-break-before: always;"></div>
 
 ### **5.** ACK/NACK (3 p)
 **a)** När ska en nod skicka `Ack` i vår modell?  
@@ -115,45 +119,63 @@ Node A skickar en applikationsframe som kräver ACK.
 
 ---
 
-<div style="page-break-before: always;"></div>
+### **7.** Fel i byte-ström (3p)
+En nod tar emot följande byte-ström:
 
-### **7.** Kodförståelse (3p)
-Anta att vi nedanstående har implementerats för en nod:
-
-```cpp
-if (myParser.isFrameReady())
-{
-    Frame rxFrame{};
-    myParser.extractFrame(rxFrame);
-    if (rxFrame.dst != myAddr) { return; }
-
-    transport.onRxFrame(rxFrame);
-    Frame txFrame{};
-
-    if (handleFrame(rxFrame, txFrame))
-    {
-        constexpr std::size_t txBufLen{64U};
-        std::uint8_t txBuf[txBufLen]{};
-        const std::size_t serializedBytes{txFrame.serialize(txBuf, txBufLen)};
-
-        for (std::size_t i{}; i < serializedBytes; ++i)
-        {
-            myBus.sendByte(txBuf[i]);
-        }
-    }
-}
+```text
+00 FF A5 F7 03 00 25 17 7F 05 10 20 30 65 99
 ```
 
-**a)** Varför kontrolleras `rxFrame.dst != myAddr` innan `handleFrame()`?  
-**b)** Vad är transportens roll här (en mening)?  
-**c)** Vad kan hända om man tar bort DST-kontrollen helt i ett broadcast-system?
+Anta att:
+* `SOF = 0xA5F7`
+* `LEN = 3`
+* Övriga fält följer standardstrukturen.
+
+**a)** Var börjar en frame i strömmen? (ange index eller byteposition)  
+**b)** Vilka bytes tillhör framen (från SOF till CHK)?  
+**c)** Vad händer med datan innan SOF?  
 
 ---
 
-### **8.** Begrepp (3p)
-Förklara kortfattat vad följande begrepp innefattar när det kommer till frames:
-**a)** Integritet.  
-**b)** Leveransgaranti.  
-**c)** Timingmodell (tick-driven).
+<div style="page-break-before: always;"></div>
+
+### **8.** Felmodell och konsekvenser (6p)
+Anta att följande frame skickas:
+
+```text
+A5 F7 03 03 25 17 7F 05 10 20 30 68
+```
+
+**a)** Anta att byten `0x20` tappas under överföring:
+
+```text
+A5 F7 03 03 25 17 7F 05 10 30 68
+```
+
+Svara på följande:
+* Vad händer med tolkningen av framen?
+* Kan mottagaren lita på datan?
+
+**b)** Anta att `0x30` ändras till `0x31`:
+
+```text
+A5 F7 03 03 25 17 7F 05 10 20 31 68
+```
+
+Svara på följande:
+* Ser framen korrekt ut strukturellt?
+* Hur kan mottagaren upptäcka felet?
+
+**c)** Anta att data anländer uppdelat över tid:
+
+```text
+Tick 1: A5 F7 03
+Tick 2: 00 25
+Tick 3: 17 7F 05 10
+Tick 4: 20 30 65
+```
+
+* När kan framen tolkas som komplett?
+* Vad händer om systemet försöker tolka framen innan alla bytes har tagits emot?
 
 ---
