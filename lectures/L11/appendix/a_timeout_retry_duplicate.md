@@ -3,58 +3,63 @@
 ## Timeout, retries och dubbletthantering
 
 ### Timeout
-I inbyggda system är det vanligt att följande görs när en nod skickar en frame som kräver ACK:
-1. Framen skickas.
-2. Noden startar sin interna timeout-räknare.
-3. Noden väntar på ACK med matchande SEQ.
-4. Om timeout uppnås skickas framen igen (retry).
+I inbyggda system används timeout för att upptäcka att ett svar uteblir.
 
-I vår tick-drivna modell hade vi kunnat implementera detta såsom visas nedan:
+Ett typiskt förlopp:
+**1.** En nod skickar en frame som förväntar sig svar (t.ex. ACK eller respons).  
+**2.** Noden startar en intern timer.  
+**3.** Noden väntar på svar med matchande SEQ.  
+**4.** Om inget svar kommer inom tidsgränsen → timeout inträffar.  
 
-```cpp
-namespace comm::node
-{
-void Stub::tick() noexcept
-{
-    // Wait for ACK, resend frame on timeout.
-    if (waitingForAck)
-    {       
-        if (myMaxTimeouts > myTimeoutCounter) { ++myTimeoutCounter; }
-        else 
-        { 
-            retry();
-            myTimeoutCounter = 0U; 
-        }
-    }
-}
-} // namespace comm::node
-```
+Timeout innebär att:
+* Kommunikation antas ha misslyckats.
+* Systemet måste vidta åtgärd (t.ex. retry).
 
 ---
 
 ### Retry
-Regler:
-* Samma SEQ.
-* Samma payload.
-* Retry-counter inkrementeras.
-* Max antal retries ska vara definierat (t.ex. 3).
+Retry innebär att samma frame skickas igen efter timeout:
+* Samma SEQ används.
+* Samma payload skickas.
+* Antalet försök räknas (retry-counter).
+* Ett max antal retries definieras (t.ex. 3).
 
-Om max retries uppnås:
-* Rapportera fel till applikationen.
-* Stoppa vidare försök.
+Om max antal retries uppnås:
+* Felet rapporteras vidare.
+* Vidare försök stoppas.
 
 ---
 
 ### Dubbletthantering
-Problem:
-Om ACK tappas:
-* Sändaren skickar framen igen.
-* Mottagaren får samma frame igen.
+Om ett svar (t.ex. ACK) tappas:
+* Sändaren gör en retry.
+* Samma frame skickas igen.
+* Mottagaren får samma frame flera gånger.
 
-Lösning:
-* Mottagaren måste känna igen dubbletter.
-* Om `SEQ` redan behandlats/har registrerats:
-    * Kör inte applikationslogik igen.
-    * Skicka ACK igen.
+Utan dubbletthantering:
+* Samma logik kan köras flera gånger.
+* Systemet kan ge fel resultat.
+
+Exempel:
+* Ett kommando utförs flera gånger.
+* Ett värde uppdateras flera gånger.
+
+För att lösa detta måste mottagaren kunna känna igen dubbletter. Detta görs genom att:
+* Identifiera frames med samma SEQ.
+* Avgöra om framen redan har behandlats.
+
+Vid dubblett:
+* Applikationslogik körs inte igen.
+* Samma svar (t.ex. ACK eller respons) kan skickas igen.
+
+---
+
+## Helhetsbild
+Timeout, retry och dubbletthantering hänger ihop:
+* Timeout → upptäcker uteblivet svar.
+* Retry → försöker igen.
+* Dubbletthantering → förhindrar fel vid upprepade frames.
+
+Tillsammans gör detta kommunikationen robust.
 
 ---
