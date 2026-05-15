@@ -1,52 +1,54 @@
-# L07 - ACK och NACK (del I)
+# L07 - CAN (Controller Area Network)
 
 ## Dagordning
-* Repetition: Fel i kommunikationen.
-* Varför räcker inte checksumma?
-* Kvittens (ACK och NACK).
-* Koppling till protokollet (SEQ, TYPE).
-* Fortsatt arbete med **P02+**.
+* Introduktion till CAN.
+* Jämförelse av eget kommunikationsprotokoll vs CAN.
+* Förberedelser inför CAN- och CANalyzer-labben.
+* Fysisk CAN-buss och terminering.
 
 ---
 
 ## Mål med lektionen
-* Förstå skillnaden mellan integritet (checksumma) och leveransgaranti (ACK).
-* Förstå hur ACK/NACK används i protokollet.
-* Förstå kopplingen mellan SEQ och ACK.
-* Förstå varför frånvaro av ACK leder till timeout.
+* Förstå vad CAN är och varför det används inom inbyggda system.
+* Kunna förklara:
+  * CAN-ID och prioritering.
+  * DLC och begränsad payload.
+  * Hårdvaruarbitrering.
+* Förstå vad hårdvaran hanterar jämfört med vårt protokoll.
+* Vara förberedd inför CANalyzer-labben.
 
 ---
 
 ## Förutsättningar
-* Genomförande av L01–L06.
+* Genomförande av L01–L08.
 
 ---
 
 ## Instruktioner
 
 ### Förberedelse
-* Läs igenom [bilaga A](./appendix/a_ack_nack.md) för information om ACK och NACK.
+* Läs igenom [bilaga A](./appendix/a_can.md) för information om CAN.
 
 ### Under lektionen
-* Genomgång av ACK/NACK.
-* Gemensam övning:
-  * Identifiera behov av ACK.
-  * Koppla ACK till SEQ.
-  * Analysera vad som händer vid utebliven ACK.
-* Fortsätt med **P02+** i grupper.
-* Övningsuppgifterna i [bilaga B](./appendix/b_exercises.md) är valfria och kan användas som stöd eller referens.
+* Inför laborationen:
+  * Läs igenom bifogat [labb-PM](./appendix/lab/README.md).
+  * Implementera driver för CAN-kontrollern `MCP2515`.
+  * Koppla ihop två Arduino-enheter med `MCP2515` CAN-moduler.
+  * Installera och konfigurera Vector CANalyzer (en dator per grupp).
 
 ---
 
 ## Utvärdering
-* Varför räcker inte checksumma för leveransgaranti?
-* Vad är syftet med att inkludera SEQ i både request och ACK?
-* Vad händer om ACK uteblir?
+* Vad är skillnaden mellan CAN-ID och DST/SRC?
+* Vad slipper vi implementera i CAN jämfört med vårt protokoll?
+* Varför behövs arbitrering i CAN?
+* Varför används terminering på CAN-bussen?
 
 ---
 
 ## Nästa lektion
-* Fortsättning på dagens tema.
+* Hur gör vi kommunikationen tillförlitlig?
+* Introduktion av ACK/NACK.
 * Fortsatt arbete med **P02+**.
 
 ---

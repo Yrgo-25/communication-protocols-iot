@@ -1,53 +1,52 @@
-# L08 - ACK och NACK (del II)
+# L08 - ACK och NACK (del I)
 
 ## Dagordning
-* Repetition: ACK/NACK (L07).
-* När kvittens inte räcker:
-  * Förlorad ACK.
-  * Förlorad respons.
-  * Dubbletter (problem).
-* Gemensam övning:
-  * Analys av fel och konsekvenser.
+* Repetition: Fel i kommunikationen.
+* Varför räcker inte checksumma?
+* Kvittens (ACK och NACK).
+* Koppling till protokollet (SEQ, TYPE).
 * Fortsatt arbete med **P02+**.
 
 ---
 
 ## Mål med lektionen
-* Genomgång av begränsningar med ACK/NACK.
-* Förstå hur förlorad ACK och förlorad respons påverkar systemet.
-* Förstå hur dubbletter kan uppstå.
-* Förstå konsekvenser av att behandla samma frame flera gånger.
-* Förstå behovet av ytterligare mekanismer (timeout, retry).
+* Förstå skillnaden mellan integritet (checksumma) och leveransgaranti (ACK).
+* Förstå hur ACK/NACK används i protokollet.
+* Förstå kopplingen mellan SEQ och ACK.
+* Förstå varför frånvaro av ACK leder till timeout.
 
 ---
 
 ## Förutsättningar
-* Genomförande av L01–L07.
+* Genomförande av L01–L06.
 
 ---
 
 ## Instruktioner
 
+### Förberedelse
+* Läs igenom [bilaga A](./appendix/a_ack_nack.md) för information om ACK och NACK.
+
 ### Under lektionen
-* Genomgång av dubbletter och förlorad ACK.
-* Övningen genomförs i helklass:
-  * Identifiera dubbletter i byte-strömmen.
-  * Analysera konsekvenser av att behandla samma frame flera gånger.
+* Genomgång av ACK/NACK.
+* Gemensam övning:
+  * Identifiera behov av ACK.
+  * Koppla ACK till SEQ.
+  * Analysera vad som händer vid utebliven ACK.
 * Fortsätt med **P02+** i grupper.
-* Övningsuppgifterna i [bilaga B](../L07/appendix/b_exercises.md) (L07) är valfria och kan användas som stöd eller referens.
+* Övningsuppgifterna i [bilaga B](./appendix/b_exercises.md) är valfria och kan användas som stöd eller referens.
 
 ---
 
 ## Utvärdering
-* Vad händer om ett ACK tappas?
-* Vad händer om ett svar (t.ex. StatusResponse) tappas?
-* Hur kan dubbletter uppstå i systemet?
-* Varför räcker inte ACK/NACK för att lösa detta?
+* Varför räcker inte checksumma för leveransgaranti?
+* Vad är syftet med att inkludera SEQ i både request och ACK?
+* Vad händer om ACK uteblir?
 
 ---
 
 ## Nästa lektion
-* Introduktion till CAN (Controller Area Network).
-* Förberedelse inför CAN-labben.
+* Fortsättning på dagens tema.
+* Fortsatt arbete med **P02+**.
 
 ---

@@ -25,7 +25,7 @@ Föreläsningarna behandlar kommunikationslager och deras egenskaper, och koppla
 | L06         | 15/5  | Felmodell för databussar (del II), arbete med **P02+** |
 | L07         | 18/5  | CAN (Controller Area Network) |
 | L08         | 18/5  | ACK/NACK (del I), arbete med **P02+** |
-| L09         | 19/5  | **Vector CANalyzer-labb (obligatorisk)** |
+| L09         | 19/5  | **CAN och CANalyzer-labb** |
 | L10         | 20/5  | ACK/NACK (del II), arbete med **P02+** |
 | L11         | 22/5  | Timeout, retries och dubbletthantering (del I), arbete med **P02+** |
 | L12         | 25/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P02+** |

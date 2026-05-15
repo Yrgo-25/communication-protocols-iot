@@ -1,52 +1,107 @@
-# L09 - CAN (Controller Area Network)
+# L09 - CAN och CANalyzer-labb
 
 ## Dagordning
-* Introduktion till CAN.
-* Jämförelse av eget kommunikationsprotokoll vs CAN.
-* Förberedelser inför CAN- och CANalyzer-labben.
-* Fysisk CAN-buss och terminering.
+* Introduktion till laborationen och CANalyzer.
+* Testkörning av egna CAN-noder.
+* Observation och analys av CAN-trafik.
+* Felsökning av CAN-kommunikation.
 
 ---
 
 ## Mål med lektionen
-* Förstå vad CAN är och varför det används inom inbyggda system.
-* Kunna förklara:
-  * CAN-ID och prioritering.
-  * DLC och begränsad payload.
-  * Hårdvaruarbitrering.
-* Förstå vad hårdvaran hanterar jämfört med vårt protokoll.
-* Vara förberedd inför CANalyzer-labben.
+* Kunna:
+    * Identifiera en CAN-frame i CANalyzer.
+    * Tolka:
+        * CAN-ID.
+        * DLC.
+        * DATA.
+    * Verifiera kommunikation mellan två CAN-noder.
+* Förstå:
+    * Hur flera noder kommunicerar på samma CAN-buss.
+    * Hur prioritet (arbitrering) påverkar trafiken.
+    * Hur filtrering via CAN-ID fungerar i praktiken.
+    * Varför terminering behövs på CAN-bussen.
 
 ---
 
 ## Förutsättningar
-* Genomförande av L01–L08.
+* Grundläggande förståelse för:
+    * CAN-frame (ID, DLC, DATA).
+    * CAN-ID som identifierare och prioritet.
+    * Arbitrering och broadcast.
+* Färdigställd eller delvis fungerande CAN-driver för MCP2515.
 
 ---
 
 ## Instruktioner
 
 ### Förberedelse
-* Läs igenom [bilaga A](./appendix/a_can.md) för information om CAN.
+* Repetera materialet från föregående CAN-föreläsning:
+    * CAN-frame (ID, DLC, DATA).
+    * Arbitrering.
+    * Filtrering via CAN-ID.
+    * Terminering.
+* Läs igenom [labb-PM:et](../L07/appendix/lab/README.md) om ni inte redan har gjort det.
+* Säkerställ att:
+    * MCP2515-biblioteket är installerat.
+    * CAN-koden kan kompileras.
+    * Två Arduino-enheter finns tillgängliga per grupp.
 
-### Under lektionen
-* Inför laborationen:
-  * Läs igenom bifogat [labb-PM](./appendix/lab/README.md).
-  * Implementera driver för CAN-kontrollern `MCP2515`.
-  * Koppla ihop två Arduino-enheter med `MCP2515` CAN-moduler.
-  * Installera och konfigurera Vector CANalyzer (en dator per grupp).
+---
+
+## Under lektionen
+
+### Introduktion med representant från Vector
+* Genomgång av:
+    * CANalyzer.
+    * CAN-interfacet.
+    * Hur CAN-trafik visas och loggas.
+    * Grundläggande felsökning.
+
+---
+
+### Testkörning
+* Koppla ihop:
+    * Två Arduino-enheter.
+    * MCP2515-moduler.
+    * CAN-bussen.
+* Verifiera:
+    * Att CAN-noderna startar korrekt.
+    * Att CAN-meddelanden skickas.
+    * Att LED-status uppdateras via CAN.
+
+---
+
+### Observation
+Studera CAN-trafik i CANalyzer:
+* Identifiera:
+    * CAN-ID.
+    * DLC.
+    * DATA.
+* Notera:
+    * Vilka meddelanden som förekommer ofta.
+    * Skillnader mellan olika meddelanden.
+    * Eventuell periodicitet.
+
+---
+
+### Analys
+* Försök tolka betydelsen av olika meddelanden:
+    * Vad representerar olika CAN-ID?
+    * Vilka meddelanden verkar viktigast?
+* Observera:
+    * Prioritet/arbitrering.
+    * Skillnader mellan lokala och mottagna händelser.
+    * Hur knapptryckningar påverkar trafiken.
 
 ---
 
 ## Utvärdering
-* Vad är skillnaden mellan CAN-ID och DST/SRC?
-* Vad slipper vi implementera i CAN jämfört med vårt protokoll?
-* Varför behövs arbitrering i CAN?
-* Varför används terminering på CAN-bussen?
+* Hur skiljer sig CAN från vårt tidigare protokoll?
+* Vilka problem uppstod vid fysisk CAN-kommunikation?
 
 ---
 
 ## Nästa lektion
-* Vector CANalyzer-labb (obligatorisk).
-
----
+* Övningsuppgifter med ACK/NACK.
+* Fortsatt arbete med **P02+**.

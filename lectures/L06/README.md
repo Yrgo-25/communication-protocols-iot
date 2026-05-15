@@ -68,8 +68,7 @@ Unit-testerna kommer läggas till i katalogen [testsuite](./testsuite/README.md)
 ---
 
 ## Nästa lektion
-* Hur gör vi kommunikationen tillförlitlig?
-* Introduktion av ACK/NACK.
-* Fortsatt arbete med **P02+**.
+* CAN (Controller Area Network).
+* Förberedelser inför CAN- och CANalyzer-labben.
 
 ---
