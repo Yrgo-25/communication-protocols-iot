@@ -2,16 +2,16 @@
 
 ## Dagordning
 * Introduktion till CAN.
-* Jämförelse: vårt protokoll vs CAN.
-* Koppling till verkliga system (ESP32-S3 / TWAI).
-* Förberedelse inför CANalyzer-labb.
+* Jämförelse av eget kommunikationsprotokoll vs CAN.
+* Förberedelser inför CAN- och CANalyzer-labben.
+* Fysisk CAN-buss och terminering.
 
 ---
 
 ## Mål med lektionen
-* Förstå vad CAN är och varför det används.
+* Förstå vad CAN är och varför det används inom inbyggda system.
 * Kunna förklara:
-  * CAN-ID (identifiering + prioritet).
+  * CAN-ID och prioritering.
   * DLC och begränsad payload.
   * Hårdvaruarbitrering.
 * Förstå vad hårdvaran hanterar jämfört med vårt protokoll.
@@ -30,14 +30,19 @@
 * Läs igenom [bilaga A](./appendix/a_can.md) för information om CAN.
 
 ### Under lektionen
-* Genomför övningsuppgifter i [bilaga B](./appendix/b_exercises.md).
-
+* Inför laborationen:
+  * Läs igenom bifogat [labb-PM](./appendix/lab/README.md).
+  * Implementera driver för CAN-kontrollern `MCP2515`.
+  * Koppla ihop två Arduino-enheter med `MCP2515` CAN-moduler.
+  * Installera och konfigurera Vector CANalyzer (en dator per grupp).
 
 ---
 
 ## Utvärdering
 * Vad är skillnaden mellan CAN-ID och DST/SRC?
 * Vad slipper vi implementera i CAN jämfört med vårt protokoll?
+* Varför behövs arbitrering i CAN?
+* Varför används terminering på CAN-bussen?
 
 ---
 
