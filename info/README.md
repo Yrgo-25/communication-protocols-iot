@@ -21,15 +21,15 @@ Föreläsningarna behandlar kommunikationslager och deras egenskaper, och koppla
 | L02         | 29/4  | Byte-parsing och state machine |
 | L03         | 5/5   | Databussar och routing (del I), start av **P02+** |
 | L04         | 8/5   | Databussar och routing (del II), arbete med **P02+** |
-| L05         | 11/5  | Felmodell för databussar (del I), arbete med **P02+** |
-| L06         | 11/5  | Felmodell för databussar (del II), arbete med **P02+** |
-| L07         | 13/5  | ACK/NACK (del I), arbete med **P02+** |
-| L08         | 15/5  | ACK/NACK (del II), arbete med **P02+** |
-| L09         | 18/5  | CAN (Controller Area Network) |
-| L10         | 19/5  | **Vector CANalyzer-labb (obligatorisk)** |
-| L11         | 20/5  | Timeout, retries och dubbletthantering (del I), arbete med **P02+** |
-| L12         | 22/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P02+** |
-| L13         | 25/5  | Repetition, övningsdugga, arbete med **P02+** |
+| L05         | 13/5  | Felmodell för databussar (del I), arbete med **P02+** |
+| L06         | 15/5  | Felmodell för databussar (del II), arbete med **P02+** |
+| L07         | 18/5  | CAN (Controller Area Network) |
+| L08         | 18/5  | ACK/NACK (del I), arbete med **P02+** |
+| L09         | 19/5  | **Vector CANalyzer-labb (obligatorisk)** |
+| L10         | 20/5  | ACK/NACK (del II), arbete med **P02+** |
+| L11         | 22/5  | Timeout, retries och dubbletthantering (del I), arbete med **P02+** |
+| L12         | 25/5  | Timeout, retries och dubbletthantering  (del II), arbete med **P02+** |
+| L13         | 28/5  | Repetition, övningsdugga, arbete med **P02+** |
 | L14         | 28/5  | **D01 – Dugga**, arbete med **P02+** |
 | L15         | 29/5  | Slutförande och redovisning av **P02+** |
 
