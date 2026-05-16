@@ -45,7 +45,7 @@
   * Korrupt data.
   * Fördröjning.
 * Hur påverkas frame-parsern av fel i byte-strömmen?
-* Varför måste felaktig frame måste ignoreras.
+* Varför felaktiga frames måste ignoreras.
 * Förstå begränsningar i en lösning utan tillförlitlighet (ACK/NACK).
 * Beskriv vad som krävs för att upptäcka och hantera fel.
 
